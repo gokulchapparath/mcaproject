@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-    <style type="css/text">
-        .navbar {
+  <style type="css/text">
+    .navbar {
   overflow: hidden;
   background-color: #333;
   position: fixed;
@@ -28,9 +28,10 @@
 
 
         body {
+          
       margin: 0;
       padding: 0;
-      background-color: #b7177a;
+      background-color: #2cb5e8;
       height: 100vh;
       
     }
@@ -52,103 +53,113 @@
    
         </style>
 
-    <title>Home</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-   
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <title>Home</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 
 <body style="overflow-x:hidden;">
-    <div class="container-fluid ">
-        <div class="row ">
-            <div class="col-sm-12">
-                <nav class="navbar navbar-expand-sm bg-light navbar-light">
-                    <a class="navbar-brand" href="/"><strong>WNB</strong></a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse"
-                        data-target="#collapsibleNavbar">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    
-                    </div>
-                </nav>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="jumbotron jumbotron-fluid" style="background-color:white ;">
-                    <div class="container">
-                        <h1 class="display-3" style="color: #17a2b8;">WIRELESS NOTICE BOARD</h1>
-                        <p class="lead" style="color: #17a2b8;">One place to display your ADs.</p>
+  <div class="container-fluid" style="margin-bottom:54px;">
 
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div id="login">
-                 
-                    <div class="container">
-                        <div id="login-row" class="row justify-content-center align-items-center">
-                            <div id="login-column" class="col-md-6">
-                                <div id="login-box" class="col-md-12">
-                                    <form id="login-form" class="form" action="" method="post">
-                                        <h3 class="text-center text-info">Login</h3>
-                                        <div class="form-group">
-                                            <label for="username" class="text-info">Username:</label><br>
-                                            <input type="text" name="wdduser" id="wdduser" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="password" class="text-info">Password:</label><br>
-                                            <input type="password" name="wddpass" id="wddpassword" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="remember-me" class="text-info"><span>Remember
-                                                    me</span> <span><input id="remember-me" name="remember-me"
-                                                        type="checkbox"></span></label><br>
-                                            <input type="submit" name="submit" clas0s="btn btn-info btn-md"
-                                                value="submit">
-                                        </div>
-                                        <div id="register-link" class="text-right">
-                                            <a href="/register" class="text-info">Register here</a>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+    <div class="row" >
+      <div class="col-sm-12">
+        <nav class="navbar navbar-expand-sm bg-light fixed-top" ">
+          <a class="navbar-brand" href="/"><strong>WNB</strong></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+      </div>
+      </nav>
+    </div>
+  </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="jumbotron jumbotron-fluid"
+        style="background-image: linear-gradient(141deg, #2cb5e8 0%, #1fc8db 51%, #2cb5e8 75%);">
+        <div class="container">
+          <h1 class="display-3" style="color: #17a2b8;">WIRELESS NOTICE BOARD</h1>
+          <p class="lead" style="color: #17a2b8;">One place to display your ADs.</p>
+
         </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                      <div class="carousel-item active">
-                        <img src="https://images.immediate.co.uk/production/volatile/sites/4/2018/08/iStock_000044061370_Medium-fa5f8aa.jpg?quality=90&crop=5px,17px,929px,400px&resize=940,404" height="300px" width="400" class="d-block w-100" alt="...">
-                      </div>
-                      <div class="carousel-item">
-                        <img src="https://cdn-prod.medicalnewstoday.com/content/images/articles/322/322868/golden-retriever-puppy.jpg" height="300px" width="400" class="d-block w-100" alt="...">
-                      </div>
-                      <div class="carousel-item">
-                        <img src="https://cdn-prod.medicalnewstoday.com/content/images/articles/322/322868/golden-retriever-puppy.jpg" height="300px" width="400" class="d-block w-100" alt="...">
-                      </div>
-                    </div>
-                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Next</span>
-                    </a>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div id="login">
+
+        <div class="container">
+          <div id="login-row" class="row justify-content-center align-items-center">
+            <div id="login-column" class="col-md-6">
+              <div id="login-box" class="col-md-12">
+                <form id="login-form" class="form" action="" method="post">
+                  <h3 class="text-center text-info">Login</h3>
+                  <div class="form-group">
+                    <label for="username" class="text-info">Username:</label><br>
+                    <input type="text" name="wdduser" id="wdduser" class="form-control">
                   </div>
+                  <div class="form-group">
+                    <label for="password" class="text-info">Password:</label><br>
+                    <input type="password" name="wddpass" id="wddpassword" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label for="remember-me" class="text-info"><span>Remember
+                        me</span> <span><input id="remember-me" name="remember-me" type="checkbox"></span></label><br>
+                    <input type="submit" name="submit" clas0s="btn btn-info btn-md" value="submit">
+                  </div>
+                  <div id="register-link" class="text-right">
+                    <a href="/register" class="text-info">Register here</a>
+                  </div>
+                </form>
+              </div>
             </div>
+          </div>
         </div>
-             </div>       
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img
+              src="https://images.immediate.co.uk/production/volatile/sites/4/2018/08/iStock_000044061370_Medium-fa5f8aa.jpg?quality=90&crop=5px,17px,929px,400px&resize=940,404"
+              height="300px" width="400" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img
+              src="https://cdn-prod.medicalnewstoday.com/content/images/articles/322/322868/golden-retriever-puppy.jpg"
+              height="300px" width="400" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img
+              src="https://cdn-prod.medicalnewstoday.com/content/images/articles/322/322868/golden-retriever-puppy.jpg"
+              height="300px" width="400" class="d-block w-100" alt="...">
+          </div>
         </div>
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+    </div>
+    <div class="col-sm-6" style="background-image: linear-gradient(141deg, #2cb5e8 0%, #1fc8db 51%, #2cb5e8 75%);">
+
+    </div>
+  </div>
+  </div>
+
 </body>
 
 </html>

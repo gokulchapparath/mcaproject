@@ -1,0 +1,206 @@
+{% extends "admin/adminmaster.html" %}
+{% block head %}
+<style>
+    /* Bootstrap css */
+    @import "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css";
+    
+    /* Google Material icons */
+    @import "http://fonts.googleapis.com/icon?family=Material+Icons";
+    
+    /* Propeller css */
+    @import "dist/css/propeller.min.css";
+    
+    /* Bootstrap datetimepicker */
+    @import "datetimepicker/css/bootstrap-datetimepicker.css";
+    
+    /* Propeller datetimepicker */
+    @import "datetimepicker/css/pmd-datetimepicker.css";
+     </style>
+{% endblock head%}
+
+
+{% block content %}
+<!-- jquery JS -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+<!-- Bootstrap js -->
+<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- Propeller textfield js --> 
+<script type="text/javascript" src="dist/js/propeller.min.js"></script>
+
+<!-- Datepicker moment with locales -->
+<script type="text/javascript" language="javascript" src="datetimepicker/js/moment-with-locales.js"></script>
+
+<!-- Propeller Bootstrap datetimepicker -->
+<script type="text/javascript" language="javascript" src="datetimepicker/js/bootstrap-datetimepicker.js"></script>
+
+<script>
+	// Linked date and time picker 
+	// start date date and time picker 
+	$('#datepicker-start').datetimepicker();
+
+	// End date date and time picker 
+	$('#datepicker-end').datetimepicker({
+		useCurrent: false 
+	});
+	
+	// start date picke on chagne event [select minimun date for end date datepicker]
+	$("#datepicker-start").on("dp.change", function (e) {
+		$('#datepicker-end').data("DateTimePicker").minDate(e.date);
+	});
+	// Start date picke on chagne event [select maxmimum date for start date datepicker]
+	$("#datepicker-end").on("dp.change", function (e) {
+		$('#datepicker-start').data("DateTimePicker").maxDate(e.date);
+	});
+</script>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th colspan="2">
+                                <h1 class="display-4">REQUEST A NOTICE</h1></th>
+
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <tr>
+                        <td scope="row">
+                            <label for="names">NAME</label></td>
+                        <td><input type="text" name="names" id="names"></td>
+
+                    </tr>
+                    <tr>
+                        <div class="input-group">
+                            <td scope="row">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                                    </div>
+                            </td>
+                            <td>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="inputGroupFile01"
+                                        aria-describedby="inputGroupFileAddon01">
+                                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                </div>
+                            </td                        
+                        </div>
+                    </tr>
+                    <tr>
+                        <td scope="row"><label for="username">File Type</label></td>
+                        <td><select class="form-control" id="sel1">
+                                <option>IMAGE</option>
+                                <option>VIDEO</option>
+                                <option>TEXT</option>
+                            </select> </td>
+                    </tr>
+                    <tr>
+                        <td scope="row">
+                            post to-
+                        </td>
+                        <td>
+                            <div class="form-check-inline">
+                                <label class="form-check-label" for="check1">
+                                    <input type="checkbox" class="form-check-input" id="check1" name="vehicle1"
+                                        value="something" checked>MCA
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <label class="form-check-label" for="check2">
+                                    <input type="checkbox" class="form-check-input" id="check2" name="vehicle2"
+                                        value="something">CS
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                    <label class="form-check-label" for="check1">
+                                        <input type="checkbox" class="form-check-input" id="check1" name="vehicle1"
+                                            value="something" checked>IT
+                                    </label>
+                                </div>
+                                <div class="form-check-inline">
+                                        <label class="form-check-label" for="check1">
+                                            <input type="checkbox" class="form-check-input" id="check1" name="vehicle1"
+                                                value="something" checked>EEE
+                                        </label>
+                                    </div>
+                                    <div class="form-check-inline">
+                                            <label class="form-check-label" for="check1">
+                                                <input type="checkbox" class="form-check-input" id="check1" name="vehicle1"
+                                                    value="something" checked>EI
+                                            </label>
+                                        </div>
+                                        <div class="form-check-inline">
+                                                <label class="form-check-label" for="check1">
+                                                    <input type="checkbox" class="form-check-input" id="check1" name="vehicle1"
+                                                        value="something" checked>EC
+                                                </label>
+                                            </div>
+                                            <div class="form-check-inline">
+                                                    <label class="form-check-label" for="check1">
+                                                        <input type="checkbox" class="form-check-input" id="check1" name="vehicle1"
+                                                            value="something" checked>CIVIL
+                                                    </label>
+                                                </div>
+                        </td>
+                    </tr>
+                  <tr>
+                      <td scope="row" colspan="2">
+                        <div class="row">
+                            <div class="col-sm-6"> 
+                                <div class="form-group pmd-textfield pmd-textfield-floating-label">
+                                    <label class="control-label" for="datepicker-start">Start Time</label>
+                                    <input type="time" class="form-control" id="timepicker-start">
+                                </div>
+                            </div>
+                            <div class="col-sm-6"> 
+                                <div class="form-group pmd-textfield pmd-textfield-floating-label">
+                                    <label class="control-label" for="datepicker-end">Start Date</label>
+                                    <input type="date" class="form-control" id="datepicker-start">
+                                </div>
+                            </div>
+                        </div>
+                      </td>
+                  </tr>
+                   
+                  <tr>
+                    <td scope="row" colspan="2">
+                      <div class="row">
+                          <div class="col-sm-6"> 
+                              <div class="form-group pmd-textfield pmd-textfield-floating-label">
+                                  <label class="control-label" for="datepicker-start">End Time</label>
+                                  <input type="time" class="form-control" id="timepicker-end">
+                              </div>
+                          </div>
+                          <div class="col-sm-6"> 
+                              <div class="form-group pmd-textfield pmd-textfield-floating-label">
+                                  <label class="control-label" for="datepicker-end">End Date</label>
+                                  <input type="date" class="form-control" id="datepicker-end">
+                             </div>
+                             </div>
+                            </tr>
+                                  
+                             
+                             <tr>
+                             <td scoper="row" align="right">
+                                    <button type="button" class="btn btn-info">SEND</button>
+                             </td>
+                                
+                             </tr>
+                      </div>
+                    </td>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
