@@ -10,7 +10,7 @@ def user():
 
 @app.route("/mastera")
 def admin():
-    return render_template('admin/master.html')
+    return render_template('admin/adminmaster.html')
 
 
 @app.route("/")
