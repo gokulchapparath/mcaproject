@@ -1,75 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "layout.html" %}
+{% block headu %}
 
-<head>
-  <style type="css/text">
-    .navbar {
-  overflow: hidden;
-  background-color: #333;
-  position: fixed;
-  top: 0;
-  width: 100%;
-}
+{% endblock headu %}
 
-.navbar a {
-  float: left;
-  display: block;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-}
+{% block content %}
 
-.navbar a:hover {
-  background: #ddd;
-  color: black;
-}
+ <body style="overflow-x:hidden;">
 
+  <div class="container-fluid" style="overflow-x:hidden;">
 
-        body {
-          
-      margin: 0;
-      padding: 0;
-      background-color: #2cb5e8;
-      height: 100vh;
-      
-    }
-    #login .container #login-row #login-column #login-box {
-      margin-top: 120px;
-      max-width: 600px;
-      height: 320px;
-      border: 1px solid #9C9C9C;
-      background-color: #EAEAEA;
-    }
-    #login .container #login-row #login-column #login-box #login-form {
-      padding: 20px;
-    }
-    #login .container #login-row #login-column #login-box #login-form #register-link {
-      margin-top: -85px;
-    }
-
-
-   
-        </style>
-
-  <title>Home</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-</head>
-
-<body style="overflow-x:hidden;">
-  <div class="container-fluid" style="margin-bottom:54px;">
-
+{% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
 
     <div class="row" >
       <div class="col-sm-12">
-        <nav class="navbar navbar-expand-sm bg-light fixed-top" ">
+        <nav class="navbar navbar-expand-sm bg-light fixed-top" >
           <a class="navbar-brand" href="/"><strong>WNB</strong></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
@@ -125,23 +77,23 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-12">
       <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
           <div class="carousel-item active">
             <img
               src="https://images.immediate.co.uk/production/volatile/sites/4/2018/08/iStock_000044061370_Medium-fa5f8aa.jpg?quality=90&crop=5px,17px,929px,400px&resize=940,404"
-              height="300px" width="400" class="d-block w-100" alt="...">
+              height="700px" width="500" class="d-block w-100" alt="...">
           </div>
           <div class="carousel-item">
             <img
               src="https://cdn-prod.medicalnewstoday.com/content/images/articles/322/322868/golden-retriever-puppy.jpg"
-              height="300px" width="400" class="d-block w-100" alt="...">
+              height="700px" width="500" class="d-block w-100" alt="...">
           </div>
           <div class="carousel-item">
             <img
               src="https://cdn-prod.medicalnewstoday.com/content/images/articles/322/322868/golden-retriever-puppy.jpg"
-              height="300px" width="400" class="d-block w-100" alt="...">
+              height="700pxpx" width="500" class="d-block w-100" alt="...">
           </div>
         </div>
         <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -154,12 +106,9 @@
         </a>
       </div>
     </div>
-    <div class="col-sm-6" style="background-image: linear-gradient(141deg, #2cb5e8 0%, #1fc8db 51%, #2cb5e8 75%);">
-
-    </div>
   </div>
-  </div>
+  </body>
 
-</body>
+ 
 
-</html>
+{% endblock content %}

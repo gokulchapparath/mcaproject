@@ -1,14 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+{% extends "layout.html" %}
+{% block headu %}
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
     <title>Registration</title>
-</head>
+{% endblock headu %}
 
+{% block content %}
 <body>
     <div class="container">
         <div class="card bg-light">
@@ -16,19 +15,51 @@
                 <h4 class="card-title mt-3 text-center">Create Account</h4>
                 
 
-                <form>
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
                     <div class="form-group input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"> <i class="fa fa-user"></i> </span>
                         </div>
-                        <input name="" class="form-control" placeholder="Full name" type="text">
+                      
+
+                    {% if form.username.errors %}
+                        {{ form.username(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.username.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.username(class="form-control form-control-lg") }}
+                    {% endif %}
                     </div> <!-- form-group// -->
+
+
+
+
+
                     <div class="form-group input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
                         </div>
-                        <input name="" class="form-control" placeholder="Email address" type="email">
+                         
+                    {% if form.email.errors %}
+                        {{ form.email(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.email(class="form-control form-control-lg") }}
+                    {% endif %}
                     </div> <!-- form-group// -->
+
+
+
+
+
                     <div class="form-group input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
@@ -36,8 +67,22 @@
                         <select class="custom-select" style="max-width: 120px;">
                             <option selected="">+91</option>
                         </select>
-                        <input name="" class="form-control" placeholder="Phone number" type="text">
+                        
+
+                    {% if form.phone.errors %}
+                        {{ form.phone(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.phone.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.phone(class="form-control form-control-lg") }}
+                    {% endif %}
                     </div> <!-- form-group// -->
+
+
+
                     <div class="form-group input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"> <i class="fa fa-building"></i> </span>
@@ -55,21 +100,50 @@
                             <option>USER</option>
                         </select>
                     </div> <!-- form-group end.// -->
+
+
+
+
                     <div class="form-group input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                         </div>
-                        <input class="form-control" placeholder="Create password" type="password">
+                        
+                    {% if form.password.errors %}
+                        {{ form.password(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.password(class="form-control form-control-lg") }}
+                    {% endif %}
                     </div> <!-- form-group// -->
                     <div class="form-group input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                         </div>
-                        <input class="form-control" placeholder="Repeat password" type="password">
+                        
+                    {% if form.confirm_password.errors %}
+                        {{ form.confirm_password(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.confirm_password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.confirm_password(class="form-control form-control-lg") }}
+                    {% endif %}
                     </div> <!-- form-group// -->
+
+
+
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-block"> Create Account </button>
+                         {{ form.submit(class="btn btn-outline-info") }}
                     </div> <!-- form-group// -->
+
+
                     <p class="text-center">Have an account? <a href="/">Log In</a> </p>
                 </form>
             </article>
@@ -78,4 +152,5 @@
     </div>
 </body>
 
-</html>
+
+{% endblock content %}

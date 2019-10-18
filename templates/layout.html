@@ -9,6 +9,7 @@
   position: fixed;
   top: 0;
   width: 100%;
+
 }
 
 .navbar a {
@@ -64,9 +65,19 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
+ <div class="container-fluid">
+  <div class="row" >
+    <div class="col-sm-12">
+      <nav class="navbar navbar-expand-sm bg-light ">
+        <a class="navbar-brand" href="/"><strong>WNB</strong></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-<body style="overflow-x:hidden;">
-        {% block content %}{% endblock %}
-</body>
-
+    </div>
+    </nav>
+  </div>
+</div>
+</div>
+{% block content %}{% endblock %}
 </html>

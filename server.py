@@ -1,7 +1,9 @@
 from flask import Flask, render_template, url_for, flash, redirect
+from forms import RegistrationForm
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__, static_url_path='/static')
+app.config['SECRET_KEY'] = 'fd5135666bac8fe98033e86b90251504'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
 
@@ -16,6 +18,10 @@ class User(db.Model):
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.contact}',)"
 
+@app.route("/layout")
+def layout():
+    return render_template('layout.html')
+
 @app.route("/masteru")
 def user():
     return render_template('user/usermaster.html')
@@ -23,7 +29,7 @@ def user():
 
 @app.route("/mastera")
 def admin():
-    return render_template('admin/master.html')
+    return render_template('admin/adminmaster.html')
 
 
 @app.route("/")
@@ -34,7 +40,11 @@ def home():
 
 @app.route("/register")
 def register():
-    return render_template('registration.html')
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        flash(f'Account created for {form.username.data}!', 'success')
+        return redirect(url_for('home'))
+    return render_template('registration.html', form=form, methods=['GET', 'POST'])
 
 
 @app.route("/addnewnotice")
