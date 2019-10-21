@@ -1,155 +1,149 @@
 {% extends "layout.html" %}
 {% block headu %}
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+
     <title>Registration</title>
 {% endblock headu %}
 
+
+
 {% block content %}
 <body>
-    <div class="container">
-        <div class="card bg-light">
-            <article class="card-body mx-auto" style="max-width: 400px;">
-                <h4 class="card-title mt-3 text-center">Create Account</h4>
-                
 
-                <form method="POST" action="">
-                    {{ form.hidden_tag() }}
-                    <div class="form-group input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"> <i class="fa fa-user"></i> </span>
-                        </div>
-                      
-
-                    {% if form.username.errors %}
-                        {{ form.username(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.username.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.username(class="form-control form-control-lg") }}
-                    {% endif %}
-                    </div> <!-- form-group// -->
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+           <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+      
+  
+  <div class="container">
+      <div class="row">
+          <div class="col-sm-12">
+            <form id="form" method="PUT">
+   
+  
 
 
-
-
-
-                    <div class="form-group input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
-                        </div>
-                         
-                    {% if form.email.errors %}
-                        {{ form.email(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.email.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.email(class="form-control form-control-lg") }}
-                    {% endif %}
-                    </div> <!-- form-group// -->
-
-
-
-
-
-                    <div class="form-group input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
-                        </div>
-                        <select class="custom-select" style="max-width: 120px;">
-                            <option selected="">+91</option>
-                        </select>
-                        
-
-                    {% if form.phone.errors %}
-                        {{ form.phone(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.phone.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.phone(class="form-control form-control-lg") }}
-                    {% endif %}
-                    </div> <!-- form-group// -->
-
-
-
-                    <div class="form-group input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"> <i class="fa fa-building"></i> </span>
-                        </div>
-                        <select class="form-control">
-                            <option selected=""> Select Type</option>
-                            <option>PRINCIPAL</option>
-                            <option>MCA_HOD</option>
-                            <option>CS_HOD</option>
-                            <option>IT_HOD</option>
-                            <option>CIVIL_HOD</option>
-                            <option>EI_HOD</option>
-                            <option>EC_HOD</option>
-                            <option>EEE_HOD</option>
-                            <option>USER</option>
-                        </select>
-                    </div> <!-- form-group end.// -->
-
-
-
-
-                    <div class="form-group input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-                        </div>
-                        
-                    {% if form.password.errors %}
-                        {{ form.password(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.password.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.password(class="form-control form-control-lg") }}
-                    {% endif %}
-                    </div> <!-- form-group// -->
-                    <div class="form-group input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-                        </div>
-                        
-                    {% if form.confirm_password.errors %}
-                        {{ form.confirm_password(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.confirm_password.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.confirm_password(class="form-control form-control-lg") }}
-                    {% endif %}
-                    </div> <!-- form-group// -->
-
-
-
-                    <div class="form-group">
-                         {{ form.submit(class="btn btn-outline-info") }}
-                    </div> <!-- form-group// -->
-
-
-                    <p class="text-center">Have an account? <a href="/">Log In</a> </p>
-                </form>
-            </article>
-        </div> <!-- card.// -->
-
+    <div class="form-group">
+        <label class="control-label" for="input_1">Name</label>
+        <div class="form-input-error-msg alert alert-danger">
+            <span class="glyphicon glyphicon-exclamation-sign"></span> This field is mandatary</div>
+        <input type="text" id="input_1" class="form-control validate">
     </div>
+
+    <!-- Email -->
+    <!-- ==================================================================== -->
+    <hr>
+
+    <div class="form-group">
+        <label class="control-label" for="email">Email</label>
+        <div class="form-input-error-msg alert alert-danger">
+            <span class="glyphicon glyphicon-exclamation-sign"></span> <span class="error-empty">Empty Field</span>
+            <span class="error-wrong">Mail not correct</span>
+        </div>
+        <input type="email" id="email" class="form-control validate email-format">
+    </div>
+
+    <!-- Password -->
+    <!-- ==================================================================== -->
+    <hr>
+
+    <div class="form-group">
+        <label class="control-label" for="password">Password</label>
+        <div class="form-input-error-msg alert alert-danger">
+            <span class="glyphicon glyphicon-exclamation-sign"></span> Type your password
+        </div>
+        <input type="password" id="password" class="form-control validate pswd">
+    </div>
+
+    <div class="form-group">
+        <label class="control-label" for="passwordConfirm">Confirm Password</label>
+        <div class="form-input-error-msg alert alert-danger">
+            <span class="glyphicon glyphicon-exclamation-sign"></span> 
+            <span class="error-empty">Confirm your password</span>
+            <span class="error-wrong">Passwords don't match</span>
+        </div>
+        <input type="password" id="passwordConfirm" class="form-control validate pswd-confirm" data-confirm="#password">
+    </div>
+
+    <!-- Phone Inputs -->
+    <!-- ==================================================================== -->
+    <hr>
+
+    <div class="form-group">
+        <label class="control-label" for="phone">Telephone Number</label>
+        <div class="form-input-error-msg alert alert-danger">
+            <span class="glyphicon glyphicon-exclamation-sign"></span>  
+            <span class="error-empty"> Insert your Phone Number</span>
+            <span class="error-wrong" >Not correct number</span>
+        </div>
+        <input type="tel" id="phone" class="form-control validate">
+    </div>
+
+    <!-- Selects -->
+    <!-- ==================================================================== -->
+    <hr>
+  
+    <div class="form-group">
+        <label class="control-label" for="select_1">Select</label>
+        <div class="form-input-error-msg alert alert-danger">
+            <span class="glyphicon glyphicon-exclamation-sign"></span> Select an option 
+        </div>
+        <select id="select_1" class="validate form-control">
+            <option class="not-option">Select an Option</option>
+            <option val="1">Option 1</option>
+            <option val="2">Option 2</option>
+            <option val="3">Option 3</option>
+        </select>
+    </div>
+
+   
+
+    <button id="submit" class="btn btn-primary btn-lg">Sumbit</button>
+        <script src="{ url_for('static', filename='formValidator.js') }}">
+            $(document).ready(function() {
+                var globOpts = {
+                    bootstrap: true,
+                    mail: {
+                        format: true,
+                        confirm: true
+                    },
+                    password: {
+                        format: true,
+                        formatRegEx: /\b([A-Z0-9])([a-z0-9]+)?\b/gm,
+                        confirm: true
+                    },
+                    telephone: {
+                        numbersOnly: false
+                    },
+                    showErrors: true
+                }
+            
+                var fv = new formValidator(globOpts)
+                var validation = fv.validate('#form', '#submit', {
+                    success: function() {
+                        alert('validation success!')
+                    },
+                    fail: function() {
+                        alert('validation fail!')
+                    }
+                });
+            
+            });
+
+        </script>
+</form>
+       
+        <!-- Javascript -->
+
+          </div>
+      </div>
+  </div>
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            Already Have An Account? <a class="ml-2" href="{{ url_for('home') }}">Sign In</a>
+        </small>
+    </div>
+
 </body>
 
 

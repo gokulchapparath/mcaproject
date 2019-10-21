@@ -35,7 +35,7 @@ def admin():
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('home.html',  methods=['GET', 'POST'])
+    return render_template('home.html',  methods=['GET', 'POST', 'DELETE', 'PUT'])
 
 
 @app.route("/register")
@@ -44,7 +44,7 @@ def register():
     if form.validate_on_submit():
         flash(f'Account created for {form.username.data}!', 'success')
         return redirect(url_for('home'))
-    return render_template('registration.html', form=form, methods=['GET', 'POST'])
+    return render_template('registration.html', form=form, methods=['GET', 'POST' 'DELETE', 'PUT'])
 
 
 @app.route("/addnewnotice")
