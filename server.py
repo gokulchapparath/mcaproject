@@ -1,26 +1,13 @@
 from flask import Flask, render_template, url_for, flash, redirect
-from forms import RegistrationForm
 from flask_sqlalchemy import SQLAlchemy
+from flask import request
+
 
 app = Flask(__name__, static_url_path='/static')
-app.config['SECRET_KEY'] = 'fd5135666bac8fe98033e86b90251504'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(25), unique=True, nullable=False) 
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    contact = db.Column(db.String(13), unique=True, nullable=False)
-    types = db.Column(db.String(15), nullable=False)
-    password = db.Column(db.String(120), nullable=False)
 
-    def __repr__(self):
-        return f"User('{self.username}', '{self.email}', '{self.contact}',)"
-
-@app.route("/layout")
-def layout():
-    return render_template('layout.html')
 
 @app.route("/masteru")
 def user():
@@ -35,16 +22,38 @@ def admin():
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('home.html',  methods=['GET', 'POST', 'DELETE', 'PUT'])
+    return render_template('home.html',  methods=['GET', 'POST'])
 
 
 @app.route("/register")
 def register():
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        flash(f'Account created for {form.username.data}!', 'success')
-        return redirect(url_for('home'))
-    return render_template('registration.html', form=form, methods=['GET', 'POST' 'DELETE', 'PUT'])
+    return render_template('registration.html')
+
+@app.route("/register", methods=['POST'])
+def register_post():
+        global errorname
+        fullname = request.form['fullname']
+        x = any(char.isdigit() for char in fullname)
+        if( x == True ):
+            errorname = "Number not allowed!!"
+            nameerror = True
+            return render_template('registration.html', errorname = errorname)
+        else:
+            mobile = request.form['mobile']
+            y = mobile.isalpha()
+            if( y == True ):
+                errormob = "No letters!!"
+                return render_template('registration.html', errormob = errormob)
+            elif( len(mobile) < 10 or len(mobile) > 10 ):
+                errormob = "10 digits needed!!"
+                return render_template('registration.html', errormob = errormob)
+            else:
+                okmob = "ok"
+                return render_template('registration.html', okmob = ok)
+
+
+        
+
 
 
 @app.route("/addnewnotice")
