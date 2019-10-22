@@ -29,9 +29,7 @@
         <span class="badge badge-danger"> {{ errorname }} </span>
          
     {% endif %}
-    {% if okname %}
-       <span class="badge badge-success">{{ okname }}</span>
-    {% endif %}
+
                     </div> <!-- form-group// -->
                     <div class="form-group input-group">
                         <div class="input-group-prepend">
@@ -61,7 +59,7 @@
                             <span class="input-group-text"> <i class="fa fa-building"></i> </span>
                         </div>
                         <select name="type" class="form-control">
-                            <option selected=""> Select Type</option>
+                            <option>Select-Type</option>
                             <option>PRINCIPAL</option>
                             <option>MCA_HOD</option>
                             <option>CS_HOD</option>
@@ -72,6 +70,10 @@
                             <option>EEE_HOD</option>
                             <option>USER</option>
                         </select>
+                         {% if errortype %}
+        <span class="badge badge-danger"> {{ errortype }} </span>
+         
+    {% endif %}
                     </div> <!-- form-group end.// -->
 
                     <div class="form-group input-group">
@@ -79,12 +81,24 @@
                             <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                         </div>
                         <input class="form-control" name="password" placeholder="Create password" type="password">
+                        {% if errorpass %}
+        <span class="badge badge-danger"> {{ errorpass }} </span>
+         
+    {% endif %}
                     </div> <!-- form-group// -->
                     <div class="form-group input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                         </div>
                         <input class="form-control" name="confirm" placeholder="Repeat password" type="password">
+                         {% if errorconfirm %}
+        <span class="badge badge-danger"> {{ errorconfirm }} </span>
+         
+    {% endif %}
+    {% if ok %}
+        <span class="badge badge-success"> {{ ok }} </span>
+         
+    {% endif %}
                     </div> <!-- form-group// -->
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-block"> Create Account </button>

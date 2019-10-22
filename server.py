@@ -40,17 +40,34 @@ def register_post():
             return render_template('registration.html', errorname = errorname)
         else:
             mobile = request.form['mobile']
-            y = mobile.isalpha()
-            if( y == True ):
+            y = mobile.isdigit()
+            if( y == False ):
                 errormob = "No letters!!"
                 return render_template('registration.html', errormob = errormob)
             elif( len(mobile) < 10 or len(mobile) > 10 ):
                 errormob = "10 digits needed!!"
                 return render_template('registration.html', errormob = errormob)
             else:
-                okmob = "ok"
-                return render_template('registration.html', okmob = ok)
-
+                types = request.form['type']
+                if(types == "Select-Type"):
+                    errortype = "choose a type!"
+                    return render_template('registration.html', errortype = errortype)
+                else:
+                    password = request.form['password']
+                if not password:
+                    errorpass = "password should not be blank!!"
+                    return render_template('registration.html', errorpass = errorpass)
+                elif( len(password) < 8 ):
+                    errorpass = "minimum 8 chars required!!"
+                    return render_template('registration.html', errorpass = errorpass)
+                else:
+                    confirm = request.form['confirm']
+                    if( password != confirm ):
+                        errorconfirm = "password doesnot match!!"
+                        return render_template('registration.html', errorconfirm = errorconfirm )       
+                    else:
+                        return render_template('registration.html', ok = "Successful" )    
+                 
 
         
 
