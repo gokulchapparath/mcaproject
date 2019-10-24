@@ -1,11 +1,11 @@
 from flask import Flask, render_template, url_for, flash, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask import request
-
+from dbconnect import connection
 
 app = Flask(__name__, static_url_path='/static')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
-db = SQLAlchemy(app)
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+# db = SQLAlchemy(app)
 
 
 
@@ -32,10 +32,15 @@ def register():
 @app.route("/register", methods=['POST'])
 def register_post():
         global errorname
+        email =request.form['email']
         fullname = request.form['fullname']
         x = any(char.isdigit() for char in fullname)
         if( x == True ):
             errorname = "Number not allowed!!"
+            nameerror = True
+            return render_template('registration.html', errorname = errorname)
+        elif(len(fullname) == 0 ):
+            errorname = "please type"
             nameerror = True
             return render_template('registration.html', errorname = errorname)
         else:
@@ -66,7 +71,19 @@ def register_post():
                         errorconfirm = "password doesnot match!!"
                         return render_template('registration.html', errorconfirm = errorconfirm )       
                     else:
-                        return render_template('registration.html', ok = "Successful" )    
+                        try:
+                            c, conn = connection()
+                            mySqlq = """INSERT INTO register (name, email, phone, types, password) 
+                           VALUES 
+                           (fullname, email, mobile, types, password) """
+                           result = cursor.execute(mySqlq)
+                            conn.commit()
+                        
+                            # return("okay")
+                            return render_template('registration.html', ok = "Successful" )
+                        except Exception as e:
+                            return(str(e))
+                                
                  
 
         
