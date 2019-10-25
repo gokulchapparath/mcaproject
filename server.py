@@ -1,13 +1,19 @@
 from flask import Flask, render_template, url_for, flash, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask import request
-from dbconnect import connection
+# from dbconnect import connection
+import mysql.connector
 
 app = Flask(__name__, static_url_path='/static')
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 # db = SQLAlchemy(app)
-
-
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="aru",
+  passwd="aru12345678",
+  database="wireless"
+)
+mycursor = mydb.cursor()
 
 @app.route("/masteru")
 def user():
@@ -31,6 +37,7 @@ def register():
 
 @app.route("/register", methods=['POST'])
 def register_post():
+        #global fullname, email, mobile, types, password
         global errorname
         email =request.form['email']
         fullname = request.form['fullname']
@@ -72,12 +79,11 @@ def register_post():
                         return render_template('registration.html', errorconfirm = errorconfirm )       
                     else:
                         try:
-                            c, conn = connection()
-                            mySqlq = """INSERT INTO register (name, email, phone, types, password) 
-                                VALUES(?, ?, ?, ?, ?) 
-                                """(fullname, email, mobile, types, password) 
-                            result = c.execute(mySqlq)
-                            conn.commit()
+                            mySql = """INSERT INTO register (name, email, phone, types, password) 
+                                VALUES (%s,%s,%s,%s,%s) 
+                                """, (fullname, email, mobile, types, password)
+                            mycursor.execute(*mySql)
+                            mydb.commit()
                         
                             # return("okay")
                             return render_template('registration.html', ok = "Successful" )
