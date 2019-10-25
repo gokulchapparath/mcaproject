@@ -74,9 +74,9 @@ def register_post():
                         try:
                             c, conn = connection()
                             mySqlq = """INSERT INTO register (name, email, phone, types, password) 
-                           VALUES 
-                           (fullname, email, mobile, types, password) """
-                           result = cursor.execute(mySqlq)
+                                VALUES(?, ?, ?, ?, ?) 
+                                """(fullname, email, mobile, types, password) 
+                            result = c.execute(mySqlq)
                             conn.commit()
                         
                             # return("okay")
