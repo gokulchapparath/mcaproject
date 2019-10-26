@@ -1,10 +1,11 @@
-from flask import Flask, render_template, url_for, flash, redirect
+from flask import Flask, render_template, url_for, flash, redirect, session
 from flask_sqlalchemy import SQLAlchemy
 from flask import request
 # from dbconnect import connection
 import mysql.connector
 
 app = Flask(__name__, static_url_path='/static')
+app.config['SECRET_KEY'] = 'fd5135666bac8fe98033e86b90251504'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 # db = SQLAlchemy(app)
 mydb = mysql.connector.connect(
@@ -30,6 +31,28 @@ def admin():
 def home():
     return render_template('home.html',  methods=['GET', 'POST'])
 
+@app.route("/", methods=['POST'])
+@app.route("/home", methods=['POST'])
+def home_post():
+    wnduser =request.form['wnduser']
+    wndpass =request.form['wndpass']
+    try:
+        myuser = """select * from register where password = %s and name = %s """
+        mycursor.execute(myuser, (wndpass, wnduser))
+        account = mycursor.fetchone()
+        if account:
+            # Create session data, we can access this data in other routes
+            session['loggedin'] = True
+            session['id'] = account['id']
+            session['username'] = account['username']
+            # Redirect to home page
+            return render_template('admin/adminhome.html')
+        else:
+            # Account doesnt exist or username/password incorrect
+            erroruser = "Incorrect username or password"
+            return render_template('home.html',  methods=['GET', 'POST'], erroruser = erroruser)
+    except Exception as e:
+        return(str(e))
 
 @app.route("/register")
 def register():
