@@ -15,7 +15,7 @@ mydb = mysql.connector.connect(
   passwd="aru12345678",
   database="wireless"
 )
-mycursor = mydb.cursor()
+mycursor = mydb.cursor(buffered=True)
 
 @app.route("/masteru")
 def user():
@@ -39,7 +39,7 @@ def home_post():
         wnduser =request.form['wnduser']
         wndpass =request.form['wndpass']
         try:
-            myuser = """select username,password from accounts where password = %s and username = %s """
+            myuser = """select * from accounts where password = %s and username = %s """
             mycursor.execute(myuser, (wndpass, wnduser))
             account = mycursor.fetchone()
             if account:
@@ -48,7 +48,10 @@ def home_post():
                 session['id'] = account[0]
                 session['username'] = account[1]
             # Redirect to home page
-                return render_template('admin/adminhome.html')
+                if( account[3] == "user" ):
+                    return render_template('user/userhome.html')
+                else:    
+                    return render_template('admin/adminhome.html')
             else:
             # Account doesnt exist or username/password incorrect
                 erroruser = "Incorrect username or password"
@@ -128,7 +131,30 @@ def register_post():
                  
 
         
+@app.route("/display")
+def display():
+    try:
 
+            mydisplay = """select file from slidetest where active = %s"""
+            mycursor.execute(mydisplay, (1, ))
+            display = mycursor.fetchall()
+            disps = [row[0] for row in display]
+            print(disps)           
+            # mycount = mycursor.execute("""select count(*) from slidetest""")
+            # mycursor.execute(mycount)
+            # count =mycursor.fetchone()
+            # x = count[0]
+            # print("x is" + str(x))
+            # disps = []
+            # for row in display:
+            #     print(row[0])
+            #     disps = row[0]  
+            # print(disps)
+            return render_template('display.html', disp = disps)
+    except Exception as e:
+        return(str(e))
+
+    
 
 
 @app.route("/addnewnotice")
