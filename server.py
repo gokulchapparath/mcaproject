@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import request
 # from dbconnect import connection
 import mysql.connector
+import re
 
 app = Flask(__name__, static_url_path='/static')
 app.config['SECRET_KEY'] = 'fd5135666bac8fe98033e86b90251504'
@@ -31,28 +32,39 @@ def admin():
 def home():
     return render_template('home.html',  methods=['GET', 'POST'])
 
-@app.route("/", methods=['POST'])
-@app.route("/home", methods=['POST'])
+@app.route("/", methods=['GET', 'POST'])
+@app.route("/home", methods=['GET', 'POST'])
 def home_post():
-    wnduser =request.form['wnduser']
-    wndpass =request.form['wndpass']
-    try:
-        myuser = """select * from register where password = %s and name = %s """
-        mycursor.execute(myuser, (wndpass, wnduser))
-        account = mycursor.fetchone()
-        if account:
+    if request.method == 'POST' and 'wnduser' in request.form and 'wndpass' in request.form:
+        wnduser =request.form['wnduser']
+        wndpass =request.form['wndpass']
+        try:
+            myuser = """select username,password from accounts where password = %s and username = %s """
+            mycursor.execute(myuser, (wndpass, wnduser))
+            account = mycursor.fetchone()
+            if account:
             # Create session data, we can access this data in other routes
-            session['loggedin'] = True
-            session['id'] = account['id']
-            session['username'] = account['username']
+                session['loggedin'] = True
+                session['id'] = account[0]
+                session['username'] = account[1]
             # Redirect to home page
-            return render_template('admin/adminhome.html')
-        else:
+                return render_template('admin/adminhome.html')
+            else:
             # Account doesnt exist or username/password incorrect
-            erroruser = "Incorrect username or password"
-            return render_template('home.html',  methods=['GET', 'POST'], erroruser = erroruser)
-    except Exception as e:
-        return(str(e))
+                erroruser = "Incorrect username or password"
+                return render_template('home.html',  methods=['GET', 'POST'], erroruser = erroruser)
+        except Exception as e:
+            return(str(e))
+
+@app.route("/logout")
+def logout():
+    # Remove session data, this will log the user out
+   session.pop('loggedin', None)
+   session.pop('id', None)
+   session.pop('username', None)
+   # Redirect to login page
+   return redirect(url_for('home'))
+       
 
 @app.route("/register")
 def register():
