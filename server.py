@@ -134,7 +134,7 @@ def register_post():
 @app.route("/display")
 def display():
     try:
-
+            
             mydisplay = """select file from slidetest where active = %s"""
             mycursor.execute(mydisplay, (1, ))
             display = mycursor.fetchall()
