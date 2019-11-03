@@ -154,8 +154,48 @@ def display():
     except Exception as e:
         return(str(e))
 
-    
 
+@app.route("/testdisplay")
+def testdisplay():
+    try:
+            global disps
+            mydisplay = """select * from slidetest"""
+            mycursor.execute(mydisplay)
+            display = mycursor.fetchall()
+            disps = [row for row in display]
+            # print(disps)           
+            # mycount = mycursor.execute("""select count(*) from slidetest""")
+            # mycursor.execute(mycount)
+            # count =mycursor.fetchone()
+            # x = count[0]
+            # print("x is" + str(x))
+            # disps = []
+            # for row in display:
+            #     print(row[0])
+            #     disps = row[0]  
+            # print(disps)
+            return render_template('test_disp.html', disp = disps)
+    except Exception as e:
+        return(str(e))    
+
+@app.route("/testdisplay", methods=['POST'])
+def testdisplay_post():
+                    global test_msg
+                    try:
+                        ids =request.form['idsel']
+                        act = request.form['activesel']
+                        if ids == "select":
+                            test_msg = "please select id"
+                            return render_template('test_disp.html', disp = disps, msg = test_msg)
+                        else:    
+                            mydisplay = """update slidetest set active = %s where id = %s"""
+                            mycursor.execute(mydisplay, (act, ids, ))
+                            mydb.commit()
+                            test_msg = "Successful"
+                            return render_template('test_disp.html', disp = disps, msg = test_msg)
+                    except Exception as e:
+                        test_msg = "an error occoured"    
+                        return render_template('test_disp.html', disp = disps, msg = test_msg)
 
 @app.route("/addnewnotice")
 def adminadd():
