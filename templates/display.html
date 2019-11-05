@@ -34,9 +34,19 @@
         </div>
     </div>
   	{% for sliders in disp %}
+      {% if sliders[2] == "png" %}
     <div class="carousel-item" data-interval="{{sliders[1]}}">
       <img class="d-block w-100" src="/static/{{sliders[0]}}" alt="{{sliders[0]}}">
     </div>
+    {% endif %}
+
+      {% if sliders[2] == "mp4" %}
+      <div class="carousel-item" data-interval="{{sliders[1]}}">
+      <video autoplay width="1366" height="768">
+        <source src="/static/{{sliders[0]}}">
+      </video>
+    </div>
+    {% endif %}
     {% endfor %}
   </div>
 </div>

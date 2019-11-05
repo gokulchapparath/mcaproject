@@ -136,7 +136,7 @@ def register_post():
 @app.route("/display")
 def display():
     try:
-        mydisplay = """select file,ms from slidetest where active = %s"""
+        mydisplay = """select file,ms,type from slidetest where active = %s"""
         mycursor.execute(mydisplay, (1, ))
         display = mycursor.fetchall()
         disps = [row for row in display]
@@ -144,17 +144,10 @@ def display():
         mycursor.execute(totaltime, (1, ))
         times = mycursor.fetchone()
         time = [row for row in times]
-        print(time[0])
-        # mycount = mycursor.execute("""select count(*) from slidetest""")
-        # mycursor.execute(mycount)
-        # count =mycursor.fetchone()
-        # x = count[0]
-        # print("x is" + str(x))
-        # disps = []
-        # for row in display:
-        #     print(row[0])
-        #     disps = row[0]
-        # print(disps)
+        file = []
+        for sliders in disps:
+                file.append(sliders[0].split(".")[1])
+        print(file)
         return render_template('display.html', disp = disps, times = time[0])
     except Exception as e:
         return(str(e))
