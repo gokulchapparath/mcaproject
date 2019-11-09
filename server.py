@@ -136,7 +136,7 @@ def register_post():
 @app.route("/display")
 def display():
     try:
-        mydisplay = """select file,ms,type from slidetest where active = %s"""
+        mydisplay = """select file,ms,type from slidetest where active = %s order by id desc"""
         mycursor.execute(mydisplay, (1, ))
         display = mycursor.fetchall()
         disps = [row for row in display]
