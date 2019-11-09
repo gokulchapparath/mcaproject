@@ -4,6 +4,9 @@
  <meta charset="utf-8">
  <meta http-equiv="refresh" content="{{times}}">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="-1" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -18,7 +21,7 @@
     <title>Display</title>
 
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 $('#carouselExampleSlidesOnly').on('slide.bs.carousel', function onSlide (ev) {
   var id = ev.relatedTarget.id;
   switch (id) {
@@ -39,7 +42,7 @@ $('#carouselExampleSlidesOnly').on('slide.bs.carousel', function onSlide (ev) {
       //the id is none of the above
   }
 })
-</script>
+</script> -->
 </head>
 <body style="overflow-x:hidden; overflow-y: hidden; cursor: none;">
     <div class="container-fluid" style="overflow-x:hidden; overflow-y: hidden;">
@@ -63,6 +66,23 @@ $('#carouselExampleSlidesOnly').on('slide.bs.carousel', function onSlide (ev) {
         </div>
     </div>
   	{% for sliders in disp %}
+
+        {% if sliders[2] == "text" %}
+    <div id="textdiv" class="carousel-item" data-interval="{{sliders[1]}}">
+        <div class="container-fluid">
+         
+                   
+                <div class="jumbotron jumbotron-fluid"
+            style="background-image: linear-gradient(141deg, #2cb5e8 0%, #1fc8db 51%, #2cb5e8 75%);">
+            <div class="container">
+              <h1 class="display-3" style="color: #17a2b8;">{{sliders[0]}}</h1>
+            </div>
+          </div>
+    </div>
+        </div>
+      
+    {% endif %}
+
       {% if sliders[2] == "png" %}
     <div id="imgdiv" class="carousel-item" data-interval="{{sliders[1]}}">
       <img  class="img-fluid" src="/static/{{sliders[0]}}" alt="{{sliders[0]}}">
@@ -71,34 +91,24 @@ $('#carouselExampleSlidesOnly').on('slide.bs.carousel', function onSlide (ev) {
     </div>
     {% endif %}
 
+
       {% if sliders[2] == "mp4" %}
       <div id="viddiv" class="carousel-item" data-interval="{{sliders[1]}}">
-
-      
-
         <div class="embed-responsive embed-responsive-16by9">
-  <!-- <iframe class="embed-responsive-item" src="/static/{{sliders[0]}}?controls=0&amp;showinfo=0;playsinline=1;muted=1;" frameborder="0" ></iframe> -->
+  <!-- <iframe id="vids" class="embed-responsive-item" src="/static/{{sliders[0]}}?controls=0&amp;showinfo=0;" frameborder="0" ></iframe> -->
 
-  <video id="vids" class="embed-responsive-item">
+  <video id="vids" class="embed-responsive-item" controls="true">
         <source src="/static/{{sliders[0]}}">
-      </video>
-
-<!--         <script type="text/javascript">
-          var vid = document.getElementById("vids");
-
-  vid.autoplay = true;
-  vid.load();
-
-        </script> -->
+        </video>
 </div>
 
-
-<!--       <video autoplay width="1366" height="768">
-        <source src="/static/{{sliders[0]}}">
-      </video> -->
     </div>
     {% endif %}
-    {% endfor %}
+
+
+
+
+{% endfor %}
   </div>
 
 <script type="text/javascript">
@@ -108,16 +118,23 @@ $('#carouselExampleSlidesOnly').on('slide.bs.carousel', function onSlide (ev) {
     case "imgdiv":
       // do something the id is 1
                 var vid = document.getElementById("vids");
-
-  vid.autoplay = false;
+                vid.pause();
+                vid.autoplay = false;
       break;
+      case "textdiv":
+      // do something the id is 1
+                var vid = document.getElementById("vids");
+                 vid.pause();
+                 vid.autoplay = false;
+      break;
+
     case "viddiv":
       // do something the id is 2
                 var vid = document.getElementById("vids");
-
-  vid.autoplay = true;
-  vid.load();
+                vid.autoplay = true;
+                 vid.load();
       break;
+
     default:
       //the id is none of the above
   }

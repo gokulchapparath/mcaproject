@@ -145,9 +145,7 @@ def display():
         times = mycursor.fetchone()
         time = [row for row in times]
         file = []
-        for sliders in disps:
-                file.append(sliders[0].split(".")[1])
-        print(file)
+
         return render_template('display.html', disp = disps, times = time[0])
     except Exception as e:
         return(str(e))
