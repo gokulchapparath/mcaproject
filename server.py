@@ -126,6 +126,12 @@ def register_post():
                                 """, (fullname, email, mobile, types, password)
                         mycursor.execute(*mySql)
                         mydb.commit()
+                        mySql1 = """INSERT INTO accounts (username, password, type) 
+                                VALUES (%s,%s,%s) 
+                                """, (fullname, password, types)
+                        mycursor.execute(*mySql1)
+                        mydb.commit()
+
 
                         # return("okay")
                         return render_template('registration.html', ok="Successful")
