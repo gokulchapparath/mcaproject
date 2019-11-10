@@ -102,7 +102,7 @@ $('#carouselExampleSlidesOnly').on('slide.bs.carousel', function onSlide (ev) {
       
     {% endif %}
 
-      {% if sliders[2] == "png" %}
+      {% if sliders[2] == "image" %}
     <div id="imgdiv" class="carousel-item" data-interval="{{sliders[1]}}">
       <img  class="img-fluid" src="/static/{{sliders[0]}}" alt="{{sliders[0]}}">
       
@@ -111,12 +111,12 @@ $('#carouselExampleSlidesOnly').on('slide.bs.carousel', function onSlide (ev) {
     {% endif %}
 
 
-      {% if sliders[2] == "mp4" %}
+      {% if sliders[2] == "video" %}
       <div id="viddiv" class="carousel-item" data-interval="{{sliders[1]}}">
         <div class="embed-responsive embed-responsive-16by9">
   <!-- <iframe id="vids" class="embed-responsive-item" src="/static/{{sliders[0]}}?controls=0&amp;showinfo=0;" frameborder="0" ></iframe> -->
 
-  <video id="vids" class="embed-responsive-item" controls="true">
+  <video id="vids" class="embed-responsive-item" controls="true" muted="true">
         <source src="/static/{{sliders[0]}}">
         </video>
 </div>
