@@ -1,12 +1,17 @@
 from flask import Flask, render_template, url_for, flash, redirect, session
 #from flask_sqlalchemy import SQLAlchemy
 from flask import request
+from datetime import datetime
 # from dbconnect import connection
 import mysql.connector
+from werkzeug import secure_filename
 import re
+import os
 
 app = Flask(__name__, static_url_path='/static')
 app.config['SECRET_KEY'] = 'fd5135666bac8fe98033e86b90251504'
+UPLOAD_FOLDER = './static'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 # db = SQLAlchemy(app)
 mydb = mysql.connector.connect(
@@ -203,6 +208,30 @@ def testdisplay_post():
 @app.route("/addnewnotice")
 def adminadd():
     return render_template('admin/add.html')
+
+@app.route("/addnewnotice", methods=['POST'])
+def imgform():
+    file = request.files['imgfiles']
+    if file:
+        now = datetime.now().strftime("%d%m%Y%H%M%S")
+        dept = request.form['dept']
+        dseconds = request.form['duration']
+        if dseconds == '':
+            return render_template('admin/add.html',msg = "please add duration")
+        else:
+            ms = int(dseconds) * 1000    
+            category = "image"
+            filename = secure_filename(file.filename)
+            files = now + filename
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'],files))
+            mySql = """INSERT INTO slidetest (file, active, ms, seconds, type) 
+                                VALUES (%s,%s,%s,%s,%s) 
+                                """, (files, 1, ms, dseconds, category)
+            mycursor.execute(*mySql)
+            mydb.commit()
+            return render_template('admin/add.html',msg = "Successful")
+    else:
+        return render_template('admin/add.html',msg = "please select a file")   
 
 
 @app.route("/requests")
