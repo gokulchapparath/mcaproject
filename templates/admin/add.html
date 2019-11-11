@@ -85,7 +85,8 @@
       <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            <table class="table">
+            <form action="/handleUpload" method="post" enctype="multipart/form-data">
+              <table class="table">
                 <thead>
                     <tr>
                         <th colspan="2">
@@ -178,15 +179,14 @@
                              <td scoper="row" align="right">
                                     <button type="button" class="btn btn-info">save</button>
                              </td>
-                             <td align="left">
-                                    <button type="button" class="btn btn-danger">Cancel</button>
-                             </td>    
+ 
                              </tr>
                       </div>
                     </td>
                     
                 </tbody>
             </table>
+            </form>
         </div>
     </div>
 </div>
@@ -203,8 +203,115 @@
     </div>
     
     <div id="text" class="container tab-pane fade"><br>
-      <h3>Upload Text</h3>
-      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+     
+      <form action="/handleUpload" method="post">
+        <div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th colspan="2">
+                                <h1 class="display-4">Upload Text</h1></th>
+
+                    </tr>
+
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <div class="input-group">
+                            <td scope="row">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupFileAddon01">ENTER TEXT:</span>
+                                    </div>
+                            </td>
+                            <td>
+                                <div class="custom-file">
+                                    <textarea rows="2" cols="80" name="comment" form="usrform">
+</textarea>
+                                  
+                                </div>
+                            </td  >                      
+                        </div>
+                    </tr>
+
+                    <tr>
+                        <td scope="row">
+                            post to-
+                        </td>
+                        <td>
+                            <div class="form-check-inline">
+                                <label class="form-check-label" for="check1">
+                                    <input type="checkbox" class="form-check-input" id="check1" name="vehicle1"
+                                        value="mca" checked>MCA
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <label class="form-check-label" for="check2">
+                                    <input type="checkbox" class="form-check-input" id="check2" name="vehicle2"
+                                        value="cs">CS
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                    <label class="form-check-label" for="check1">
+                                        <input type="checkbox" class="form-check-input" id="check1" name="vehicle1"
+                                            value="it" checked>IT
+                                    </label>
+                                </div>
+                                <div class="form-check-inline">
+                                        <label class="form-check-label" for="check1">
+                                            <input type="checkbox" class="form-check-input" id="check1" name="vehicle1"
+                                                value="eee" checked>EEE
+                                        </label>
+                                    </div>
+                                    <div class="form-check-inline">
+                                            <label class="form-check-label" for="check1">
+                                                <input type="checkbox" class="form-check-input" id="check1" name="vehicle1"
+                                                    value="ei" checked>EI
+                                            </label>
+                                        </div>
+                                        <div class="form-check-inline">
+                                                <label class="form-check-label" for="check1">
+                                                    <input type="checkbox" class="form-check-input" id="check1" name="vehicle1"
+                                                        value="ec" checked>EC
+                                                </label>
+                                            </div>
+                                            <div class="form-check-inline">
+                                                    <label class="form-check-label" for="check1">
+                                                        <input type="checkbox" class="form-check-input" id="check1" name="vehicle1"
+                                                            value="civil" checked>CIVIL
+                                                    </label>
+                                                </div>
+                        </td>
+                    </tr>
+                  
+
+                                  <tr>
+                                 <td scope="row">
+                               <label for="duration">Duration(in Seconds)</label>
+                                 </td>
+                                 <td>
+                                     <input type="number" name="duration" id="duration" >
+                                 </td>
+                             </tr>
+                             
+                             <tr>
+                             <td scoper="row" align="right">
+                                    <button type="submit" class="btn btn-info">save</button>
+                             </td>
+   
+                             </tr>
+                      </div>
+                    </td>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+      </form>
     </div>    
     
   </div>
