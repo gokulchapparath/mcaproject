@@ -283,6 +283,24 @@ def imgform():
                 return render_template('admin/add.html',msg = "Successful added pdf")
         else:
             return render_template('admin/add.html',msg = "please select a pdf file")            
+    elif request.form['formbtn'] == 'txt':
+        dept = request.form['depttxt']
+        dseconds = request.form['durationtxt']
+        if dseconds == '':
+            return render_template('admin/add.html',msg = "please add duration for text")
+        else:
+            ms = int(dseconds) * 1000    
+            category = "text"
+            file = request.form['textval']
+            if file == '':
+                return render_template('admin/add.html',msg = "Please add text")
+            else:
+                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type) 
+                                VALUES (%s,%s,%s,%s,%s) 
+                                """, (file, 1, ms, dseconds, category)
+                mycursor.execute(*mySql)
+                mydb.commit()    
+            return render_template('admin/add.html',msg = "Successful added text message")
     else:
         return render_template('admin/add.html',msg = "something went wrong")
             
