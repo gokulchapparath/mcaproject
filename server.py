@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for, flash, redirect, session
 #from flask_sqlalchemy import SQLAlchemy
 from flask import request
 from datetime import datetime
+from pdf2image import convert_from_path
 # from dbconnect import connection
 import mysql.connector
 from werkzeug import secure_filename
@@ -211,29 +212,83 @@ def adminadd():
 
 @app.route("/addnewnotice", methods=['POST'])
 def imgform():
-    file = request.files['imgfiles']
-    if file:
-        now = datetime.now().strftime("%d%m%Y%H%M%S")
-        dept = request.form['dept']
-        dseconds = request.form['duration']
-        if dseconds == '':
-            return render_template('admin/add.html',msg = "please add duration")
+    if request.form['formbtn'] == 'img':
+        file = request.files['imgfiles']
+        if file:
+            now = datetime.now().strftime("%d%m%Y%H%M%S")
+            dept = request.form['dept']
+            dseconds = request.form['duration']
+            if dseconds == '':
+              return render_template('admin/add.html',msg = "please add duration")
+            else:
+                ms = int(dseconds) * 1000    
+                category = "image"
+                filename = secure_filename(file.filename)
+                files = now + filename
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'],files))
+                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type) 
+                                    VALUES (%s,%s,%s,%s,%s) 
+                                    """, (files, 1, ms, dseconds, category)
+                mycursor.execute(*mySql)
+                mydb.commit()
+                return render_template('admin/add.html',msg = "Successful")
         else:
-            ms = int(dseconds) * 1000    
-            category = "image"
-            filename = secure_filename(file.filename)
-            files = now + filename
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'],files))
-            mySql = """INSERT INTO slidetest (file, active, ms, seconds, type) 
+            return render_template('admin/add.html',msg = "please select a file")
+    elif request.form['formbtn'] == 'vid':
+        file = request.files['vidfiles']
+        if file:
+            now = datetime.now().strftime("%d%m%Y%H%M%S")
+            dept = request.form['deptvid']
+            dseconds = request.form['durationvid']
+            if dseconds == '':
+                return render_template('admin/add.html',msg = "please add duration")
+            else:
+                ms = int(dseconds) * 1000    
+                category = "video"
+                filename = secure_filename(file.filename)
+                files = now + filename
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'],files))
+                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type) 
+                                    VALUES (%s,%s,%s,%s,%s) 
+                                    """, (files, 1, ms, dseconds, category)
+                mycursor.execute(*mySql)
+                mydb.commit()
+                return render_template('admin/add.html',msg = "Successful added video")
+        else:
+            return render_template('admin/add.html',msg = "please select a video file")
+    elif request.form['formbtn'] == 'pdf':
+        file = request.files['pdffiles']
+        if file:
+            now = datetime.now().strftime("%d%m%Y%H%M%S")
+            dept = request.form['deptpdf']
+            dseconds = request.form['durationpdf']
+            if dseconds == '':
+                return render_template('admin/add.html',msg = "please add duration")
+            else:
+                ms = int(dseconds) * 1000    
+                category = "image"
+                filename = secure_filename(file.filename)
+                files = filename
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'],files))
+                pages = convert_from_path(app.config['UPLOAD_FOLDER']+ '/' + files, 500)
+                name = now + 'pdf' + '.png'
+                for page in pages:
+                    page.save(os.path.join(app.config['UPLOAD_FOLDER'], name), 'PNG')
+                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type) 
                                 VALUES (%s,%s,%s,%s,%s) 
-                                """, (files, 1, ms, dseconds, category)
-            mycursor.execute(*mySql)
-            mydb.commit()
-            return render_template('admin/add.html',msg = "Successful")
+                                """, (name, 1, ms, dseconds, category)
+                mycursor.execute(*mySql)
+                mydb.commit()
+                os.remove(app.config['UPLOAD_FOLDER']+ '/' + files)
+                return render_template('admin/add.html',msg = "Successful added pdf")
+        else:
+            return render_template('admin/add.html',msg = "please select a pdf file")            
     else:
-        return render_template('admin/add.html',msg = "please select a file")   
-
-
+        return render_template('admin/add.html',msg = "something went wrong")
+            
+            
+    
+           
 @app.route("/requests")
 def adminrequest():
     return render_template('admin/requests.html')
