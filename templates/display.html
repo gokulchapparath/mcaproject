@@ -17,6 +17,9 @@
     <script src="/slider/jsImgSlider/themes/6/mcVideoPlugin.js" type="text/javascript"></script>
     <script src="/slider/jsImgSlider/themes/6/js-image-slider.js" type="text/javascript"></script> -->
     <style type="text/css" media="screen">
+      .carousel-inner > .carousel-item > img {
+  margin: 0 auto;
+}
             @media screen and (min-width: 601px) { 
                 .text { 
                     font-size: 40px; 
@@ -34,7 +37,13 @@
                 } 
 
             } 
-      
+      .carousel-item img{
+ width: 100%;
+ object-fit: contain;
+ max-height: 100vh;
+ margin: auto; 
+ display: block;
+ }
     </style>
 
     <title>Display</title>
@@ -103,8 +112,8 @@ $('#carouselExampleSlidesOnly').on('slide.bs.carousel', function onSlide (ev) {
     {% endif %}
 
       {% if sliders[2] == "image" %}
-    <div id="imgdiv" class="carousel-item" data-interval="{{sliders[1]}}">
-      <img align="middle"  class="img-fluid" src="/static/{{sliders[0]}}" alt="{{sliders[0]}}">
+    <div id="imgdiv" class="carousel-item"  data-interval="{{sliders[1]}}">
+      <img  class="img-fluid" src="/static/{{sliders[0]}}" alt="{{sliders[0]}}">
       
       
     </div>
@@ -116,7 +125,7 @@ $('#carouselExampleSlidesOnly').on('slide.bs.carousel', function onSlide (ev) {
         <div class="embed-responsive embed-responsive-16by9">
   <!-- <iframe id="vids" class="embed-responsive-item" src="/static/{{sliders[0]}}?controls=0&amp;showinfo=0;" frameborder="0" ></iframe> -->
 
-  <video id="vids" class="embed-responsive-item" controls="true" muted="true">
+  <video id="vids{{sliders[0]}}" class="embed-responsive-item" controls="true" muted="true">
         <source src="/static/{{sliders[0]}}">
         </video>
 </div>
@@ -129,36 +138,46 @@ $('#carouselExampleSlidesOnly').on('slide.bs.carousel', function onSlide (ev) {
 
 {% endfor %}
   </div>
-
+{% for sliders in disp %}
+{% if sliders[2] == "video" %}
 <script type="text/javascript">
 $('#carouselExampleSlidesOnly').on('slide.bs.carousel', function onSlide (ev) {
   var id = ev.relatedTarget.id;
   switch (id) {
     case "imgdiv":
       // do something the id is 1
-                var vid = document.getElementById("vids");
+                var vid = document.getElementById("vids{{sliders[0]}}");
                 vid.pause();
                 vid.autoplay = false;
       break;
       case "textdiv":
       // do something the id is 1
-                var vid = document.getElementById("vids");
+                var vid = document.getElementById("vids{{sliders[0]}}");
                  vid.pause();
                  vid.autoplay = false;
       break;
 
     case "viddiv":
       // do something the id is 2
-                var vid = document.getElementById("vids");
+                var vid = document.getElementById("vids{{sliders[0]}}");
+              
+                  vid.load();
+                
+                vid.play();
                 vid.autoplay = true;
-                 vid.load();
       break;
 
     default:
+     var vid = document.getElementById("vids");
+                 vid.pause();
+                 vid.autoplay = false;
+                 break;
       //the id is none of the above
   }
 })
 </script>
+{% endif %}
+{% endfor %}
 </div>
 
 
