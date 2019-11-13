@@ -305,7 +305,16 @@ def imgform():
         return render_template('admin/add.html',msg = "something went wrong")
             
             
-    
+@app.route("/updatenotice")
+def updates():
+    try:
+        mydisplay = """select id,file,active,type from slidetest where deleted = "%s"  order by id desc"""
+        mycursor.execute(mydisplay, (0, ))
+        display = mycursor.fetchall()
+        disps = [row for row in display]
+        return render_template('admin/updatenotice.html', disp = disps)
+    except Exception as e:
+        return(str(e))
            
 @app.route("/requests")
 def adminrequest():

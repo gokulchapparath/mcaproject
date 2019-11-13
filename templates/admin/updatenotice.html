@@ -1,0 +1,87 @@
+{% extends "admin/adminmaster.html" %}
+{% block head %}
+<style>
+    /* Bootstrap css */
+    @import "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css";
+    
+    /* Google Material icons */
+    @import "http://fonts.googleapis.com/icon?family=Material+Icons";
+    
+    /* Propeller css */
+    @import "dist/css/propeller.min.css";
+    
+    /* Bootstrap datetimepicker */
+    @import "datetimepicker/css/bootstrap-datetimepicker.css";
+    
+    /* Propeller datetimepicker */
+    @import "datetimepicker/css/pmd-datetimepicker.css";
+     </style>
+{% endblock head%}
+
+
+{% block content %}
+  <!-- bootsrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <!-- bootsrap -->
+<form action="{{url_for('updates')}}" method="post" enctype="multipart/form-data">
+<div class="container">
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#notice">Notice List</a></li>
+    <li><a data-toggle="tab" href="#toggle">Toggle Notice</a></li>
+    <li><a data-toggle="tab" href="#delete">Delete</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <!-- only showing active images videos and text -->
+    <div id="notice" class="tab-pane fade in active">
+      <h3>Notice list</h3>
+      <table class="table table-hover">
+          <thead>
+              <tr>
+                  <th>slide-id</th>
+                  <th>slide</th>
+                  <th>active?</th>
+              </tr>
+          </thead>
+          <tbody>
+            {% for sliders in disp %}
+              <tr>
+                <!-- id -->
+                <td>{{sliders[0]}}</td>
+              <!-- file image,vid,txt -->
+                {% if sliders[3] == "image" %}
+                 <td><img class="img-fluid" src="/static/{{sliders[1]}}" alt="{{sliders[1]}}" height="300px" width="300px"></td>
+                  {% elif sliders[3] == "video" %}
+                  <td><video id="vids{{sliders[0]}}" class="embed-responsive-item" controls="true" muted="true" height="300px" width="300px">
+        <source src="/static/{{sliders[1]}}">
+        </video></td>
+                  {% else %}
+                  <td>{{sliders[1]}}</td>
+                  {% endif %}
+                <!-- active:yes or no -->
+                {%if sliders[2] == 1 %}
+                  <td>yes</td>
+                {% else %}
+                <td>no</td>
+              </tr>
+              {% endif %}
+              {% endfor %}
+          </tbody>
+      </table>
+    </div>
+    <!-- toggle on and off slides -->
+    <div id="toggle" class="tab-pane fade">
+      <h3>Toggle Notice</h3>
+      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+    <!-- deleting slides -->
+    <div id="delete" class="tab-pane fade">
+      <h3>Delete Notice</h3>
+      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+    </div>
+  </div>
+</div>
+</form>
+{% endblock content %}
