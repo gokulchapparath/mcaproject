@@ -315,7 +315,29 @@ def updates():
         return render_template('admin/updatenotice.html', disp = disps)
     except Exception as e:
         return(str(e))
-           
+
+@app.route("/updatenotice", methods=['POST'])
+def updatesform():
+    if request.form['update'] == 'toggle':
+        try:
+            ids = request.form['idsel']
+            act = request.form['activesel']
+            if ids == "select":
+                test_msg = "please select id"
+                return redirect(url_for('updates'))
+                return render_template('test_disp.html', disp=disps, msg=test_msg)
+            else:
+                mydisplay = """update slidetest set active = %s where id = %s"""
+                mycursor.execute(mydisplay, (act, ids, ))
+                mydb.commit()
+                test_msg = "Successful"
+                return redirect(url_for('updates'))
+                return render_template('admin/updatenotice.html', disp=disps, msg=test_msg)
+        except Exception as e:
+            test_msg = "an error occoured"
+            return redirect(url_for('updates'))
+            return render_template('admin/updatenotice.html', disp=disps, msg=test_msg)
+
 @app.route("/requests")
 def adminrequest():
     return render_template('admin/requests.html')
