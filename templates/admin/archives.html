@@ -1,0 +1,40 @@
+{% extends "admin/adminmaster.html" %}
+{% block head %}
+{% endblock head%}
+
+{% block content %}
+  <!-- bootsrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <!-- bootsrap -->
+<div class="container-fluid">
+<!-- table -->
+<h3>Look at your <b>Archives</b></h3>
+<table class="table table-hover">
+          <thead>
+              <tr>
+                  <th>Deleted slides</th>
+              </tr>
+          </thead>
+          <tbody>
+            {% for sliders in disp %}
+            
+              <tr>
+              <!-- file image,vid,txt -->
+                {% if sliders[3] == "image" %}
+                 <td><img class="img-fluid" src="/static/{{sliders[1]}}" alt="{{sliders[1]}}" height="300px" width="300px"></td>
+                  {% elif sliders[3] == "video" %}
+                  <td><video id="vids{{sliders[0]}}" class="embed-responsive-item" controls="true" muted="true" height="300px" width="300px">
+        <source src="/static/{{sliders[1]}}">
+        </video></td>
+                  {% else %}
+                  <td>{{sliders[1]}}</td>
+                  {% endif %}
+                <!-- active:yes or no -->
+              {% endfor %}
+          </tbody>
+      </table>
+<!-- table ends -->
+</div>
+{% endblock content %}

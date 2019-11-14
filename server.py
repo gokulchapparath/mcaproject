@@ -357,7 +357,17 @@ def updatesform():
             test_msg = "an error occoured"
             return redirect(url_for('updates'))
 
-           
+@app.route("/archives")
+def archives():
+    try:
+        mydisplay = """select id,file,active,type from slidetest where deleted = "%s" order by id"""
+        mycursor.execute(mydisplay, (1, ))
+        display = mycursor.fetchall()
+        disps = [row for row in display]
+        return render_template('admin/archives.html', disp = disps)
+    except Exception as e:
+        return(str(e))
+
 
 @app.route("/requests")
 def adminrequest():
