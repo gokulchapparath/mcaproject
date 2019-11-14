@@ -9,5 +9,5 @@ name = now + '.png'
 dirs = '/home/aru/Desktop/pdftoimg/test/'
 base_filename  =  os.path.splitext(os.path.basename(name))[0] + '.png'
 print(enumerate(pages))
-for i, page in enumerate(pages):
+for i, page in enumerate(reversed(pages)):
     page.save(os.path.join(dirs, name + str(i) ), 'PNG')
