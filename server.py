@@ -166,8 +166,8 @@ def display():
 def testdisplay():
     try:
         global disps
-        mydisplay = """select * from slidetest"""
-        mycursor.execute(mydisplay)
+        mydisplay = """select * from slidetest where deleted = %s"""
+        mycursor.execute(mydisplay, (0, ))
         display = mycursor.fetchall()
         disps = [row for row in display]
         # print(disps)
@@ -226,9 +226,9 @@ def imgform():
                 filename = secure_filename(file.filename)
                 files = now + filename
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'],files))
-                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type) 
-                                    VALUES (%s,%s,%s,%s,%s) 
-                                    """, (files, 1, ms, dseconds, category)
+                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted) 
+                                    VALUES (%s,%s,%s,%s,%s,%s) 
+                                    """, (files, 1, ms, dseconds, category, 0)
                 mycursor.execute(*mySql)
                 mydb.commit()
                 return render_template('admin/add.html',msg = "Successful")
@@ -248,9 +248,9 @@ def imgform():
                 filename = secure_filename(file.filename)
                 files = now + filename
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'],files))
-                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type) 
-                                    VALUES (%s,%s,%s,%s,%s) 
-                                    """, (files, 1, ms, dseconds, category)
+                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted) 
+                                    VALUES (%s,%s,%s,%s,%s,%s) 
+                                    """, (files, 1, ms, dseconds, category, 0)
                 mycursor.execute(*mySql)
                 mydb.commit()
                 return render_template('admin/add.html',msg = "Successful added video")
@@ -274,9 +274,9 @@ def imgform():
                 name = now + 'pdf' + '.png'
                 for page in pages:
                     page.save(os.path.join(app.config['UPLOAD_FOLDER'], name), 'PNG')
-                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type) 
-                                VALUES (%s,%s,%s,%s,%s) 
-                                """, (name, 1, ms, dseconds, category)
+                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted) 
+                                VALUES (%s,%s,%s,%s,%s,%s) 
+                                """, (name, 1, ms, dseconds, category, 0)
                 mycursor.execute(*mySql)
                 mydb.commit()
                 os.remove(app.config['UPLOAD_FOLDER']+ '/' + files)
@@ -295,9 +295,9 @@ def imgform():
             if file == '':
                 return render_template('admin/add.html',msg = "Please add text")
             else:
-                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type) 
-                                VALUES (%s,%s,%s,%s,%s) 
-                                """, (file, 1, ms, dseconds, category)
+                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted) 
+                                VALUES (%s,%s,%s,%s,%s,%s) 
+                                """, (file, 1, ms, dseconds, category, 0)
                 mycursor.execute(*mySql)
                 mydb.commit()    
             return render_template('admin/add.html',msg = "Successful added text message")
