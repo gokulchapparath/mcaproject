@@ -308,11 +308,16 @@ def imgform():
 @app.route("/updatenotice")
 def updates():
     try:
-        mydisplay = """select id,file,active,type from slidetest where deleted = "%s"  order by id desc"""
-        mycursor.execute(mydisplay, (0, ))
+        mydisplay = """select id,file,active,type from slidetest where active = "%s" and deleted = "%s"  order by id desc"""
+        mycursor.execute(mydisplay, (1, 0, ))
         display = mycursor.fetchall()
         disps = [row for row in display]
-        return render_template('admin/updatenotice.html', disp = disps)
+        mydisplay2 = """select id,file,active,type from slidetest where deleted = "%s"  order by id desc"""
+        mycursor.execute(mydisplay2, (0, ))
+        display2 = mycursor.fetchall()
+        disps2 = [row for row in display2]
+
+        return render_template('admin/updatenotice.html', disp = disps, disp2 = disps2)
     except Exception as e:
         return(str(e))
 

@@ -89,7 +89,7 @@
           <tr>
             <td><select name="idsel">
               <option value="select">select id</option>
-              {% for sliders in disp %}
+              {% for sliders in disp2 %}
               <option value="{{sliders[0]}}">{{sliders[0]}}</option>
               {% endfor %}
             </select></td></td>
@@ -121,7 +121,7 @@
               </tr>
           </thead>
           <tbody>
-            {% for sliders in disp %}
+            {% for sliders in disp2 %}
               <tr>
                 <!-- id -->
                 <td>{{sliders[0]}}</td>
