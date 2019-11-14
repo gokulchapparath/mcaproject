@@ -323,6 +323,7 @@ def updates():
 
 @app.route("/updatenotice", methods=['POST'])
 def updatesform():
+    global test_msg
     if request.form['update'] == 'toggle':
         try:
             ids = request.form['idsel']
@@ -330,18 +331,33 @@ def updatesform():
             if ids == "select":
                 test_msg = "please select id"
                 return redirect(url_for('updates'))
-                return render_template('test_disp.html', disp=disps, msg=test_msg)
             else:
                 mydisplay = """update slidetest set active = %s where id = %s"""
                 mycursor.execute(mydisplay, (act, ids, ))
                 mydb.commit()
                 test_msg = "Successful"
                 return redirect(url_for('updates'))
-                return render_template('admin/updatenotice.html', disp=disps, msg=test_msg)
         except Exception as e:
             test_msg = "an error occoured"
             return redirect(url_for('updates'))
-            return render_template('admin/updatenotice.html', disp=disps, msg=test_msg)
+    elif request.form['update'] == 'delete':
+        try:
+            ids = request.form['delidsel']
+            act = request.form['delsel']
+            if ids == "select":
+                test_msg = "please select id"
+                return redirect(url_for('updates'))
+            else:
+                mydisplay = """update slidetest set deleted = %s where id = %s"""
+                mycursor.execute(mydisplay, (act, ids, ))
+                mydb.commit()
+                test_msg = "Successful"
+                return redirect(url_for('updates'))
+        except Exception as e:
+            test_msg = "an error occoured"
+            return redirect(url_for('updates'))
+
+           
 
 @app.route("/requests")
 def adminrequest():

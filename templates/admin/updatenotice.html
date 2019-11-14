@@ -150,7 +150,76 @@
     <!-- deleting slides -->
     <div id="delete" class="tab-pane fade">
       <h3>Delete Notice</h3>
-      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+      <div class="container-fluid">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>id</th>
+            <th>delete</th>
+            <th>update</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><select name="delidsel">
+              <option value="select">select id</option>
+              {% for sliders in disp2 %}
+              <option value="{{sliders[0]}}">{{sliders[0]}}</option>
+              {% endfor %}
+            </select></td></td>
+            <td><select name="delsel">
+              <option value="1">Yes</option>
+              <option value="0">NO</option>
+            </select></td>
+            <td><button type="submit" name="update" value="delete" class="btn btn-primary btn-block">DELETE</button></td>
+          </tr>
+          <tr><div>                          {% if msg %}
+        <span class="badge badge-danger"> {{ msg }} </span>
+         
+    {% endif %}</div></tr>
+        </tbody>
+      </table>
+
+</div>
+<hr>
+<hr>
+  <div class="container-fluid">
+    
+  
+  <table class="table table-hover">
+          <thead>
+              <tr>
+                  <th>slide-id</th>
+                  <th>slide</th>
+                  <th>active?</th>
+              </tr>
+          </thead>
+          <tbody>
+            {% for sliders in disp2 %}
+              <tr>
+                <!-- id -->
+                <td>{{sliders[0]}}</td>
+              <!-- file image,vid,txt -->
+                {% if sliders[3] == "image" %}
+                 <td><img class="img-fluid" src="/static/{{sliders[1]}}" alt="{{sliders[1]}}" height="150px" width="150px"></td>
+                  {% elif sliders[3] == "video" %}
+                  <td><video id="vids{{sliders[0]}}" class="embed-responsive-item" controls="true" muted="true" height="150px" width="150px">
+        <source src="/static/{{sliders[1]}}">
+        </video></td>
+                  {% else %}
+                  <td>{{sliders[1]}}</td>
+                  {% endif %}
+                <!-- active:yes or no -->
+                {%if sliders[2] == 1 %}
+                  <td>yes</td>
+                {% else %}
+                <td>no</td>
+              </tr>
+              {% endif %}
+              {% endfor %}
+          </tbody>
+      </table>
+  </div>
     </div>
     <!-- upto here -->
   </div>
