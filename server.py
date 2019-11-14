@@ -271,14 +271,14 @@ def imgform():
                 files = filename
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'],files))
                 pages = convert_from_path(app.config['UPLOAD_FOLDER']+ '/' + files, 500)
-                name = now + 'pdf' + '.png'
-                for page in pages:
-                    page.save(os.path.join(app.config['UPLOAD_FOLDER'], name), 'PNG')
-                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted) 
-                                VALUES (%s,%s,%s,%s,%s,%s) 
-                                """, (name, 1, ms, dseconds, category, 0)
-                mycursor.execute(*mySql)
-                mydb.commit()
+                for i, page in enumerate(reversed(pages)):
+                    name = str(i) + now + 'pdf' + '.png'
+                    page.save(os.path.join(app.config['UPLOAD_FOLDER'],  name), 'PNG')
+                    mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted) 
+                                    VALUES (%s,%s,%s,%s,%s,%s) 
+                                    """, (name, 1, ms, dseconds, category, 0)
+                    mycursor.execute(*mySql)
+                    mydb.commit()
                 os.remove(app.config['UPLOAD_FOLDER']+ '/' + files)
                 return render_template('admin/add.html',msg = "Successful added pdf")
         else:
