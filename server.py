@@ -57,7 +57,8 @@ def home_post():
                 session['username'] = account[1]
             # Redirect to home page
                 if(account[3] == "user"):
-                    return render_template('user/userhome.html')
+                    name = session['username']
+                    return render_template('user/userhome.html', names = name.capitalize())
                 else:
                     return render_template('admin/adminhome.html')
             else:
@@ -74,6 +75,7 @@ def logout():
     session.pop('loggedin', None)
     session.pop('id', None)
     session.pop('username', None)
+
     # Redirect to login page
     return redirect(url_for('home'))
 
@@ -148,8 +150,8 @@ def register_post():
 @app.route("/display")
 def display():
     try:
-        mydisplay = """select file,ms,type from slidetest where active = %s order by id desc"""
-        mycursor.execute(mydisplay, (1, ))
+        mydisplay = """select file,ms,type from slidetest where active = %s and status = %s order by id desc"""
+        mycursor.execute(mydisplay, (1, 1, ))
         display = mycursor.fetchall()
         disps = [row for row in display]
         totaltime = """select sum(seconds)+4 from slidetest where active = %s """
@@ -226,9 +228,9 @@ def imgform():
                 filename = secure_filename(file.filename)
                 files = now + filename
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'],files))
-                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted) 
-                                    VALUES (%s,%s,%s,%s,%s,%s) 
-                                    """, (files, 1, ms, dseconds, category, 0)
+                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted, who, status) 
+                                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s) 
+                                    """, (files, 1, ms, dseconds, category, 0, "mca_admin", 1)
                 mycursor.execute(*mySql)
                 mydb.commit()
                 return render_template('admin/add.html',msg = "Successful")
@@ -248,9 +250,9 @@ def imgform():
                 filename = secure_filename(file.filename)
                 files = now + filename
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'],files))
-                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted) 
-                                    VALUES (%s,%s,%s,%s,%s,%s) 
-                                    """, (files, 1, ms, dseconds, category, 0)
+                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted, who, status) 
+                                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s) 
+                                    """, (files, 1, ms, dseconds, category, 0, "mca_admin", 1)
                 mycursor.execute(*mySql)
                 mydb.commit()
                 return render_template('admin/add.html',msg = "Successful added video")
@@ -274,9 +276,9 @@ def imgform():
                 for i, page in enumerate(reversed(pages)):
                     name = str(i) + now + 'pdf' + '.png'
                     page.save(os.path.join(app.config['UPLOAD_FOLDER'],  name), 'PNG')
-                    mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted) 
-                                    VALUES (%s,%s,%s,%s,%s,%s) 
-                                    """, (name, 1, ms, dseconds, category, 0)
+                    mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted, who, status) 
+                                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s) 
+                                    """, (name, 1, ms, dseconds, category, 0, "mca_admin", 1)
                     mycursor.execute(*mySql)
                     mydb.commit()
                 os.remove(app.config['UPLOAD_FOLDER']+ '/' + files)
@@ -295,9 +297,9 @@ def imgform():
             if file == '':
                 return render_template('admin/add.html',msg = "Please add text")
             else:
-                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted) 
-                                VALUES (%s,%s,%s,%s,%s,%s) 
-                                """, (file, 1, ms, dseconds, category, 0)
+                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted, who, status) 
+                                VALUES (%s,%s,%s,%s,%s,%s,%s,%s) 
+                                """, (file, 1, ms, dseconds, category, 0, "mca_admin", 1)
                 mycursor.execute(*mySql)
                 mydb.commit()    
             return render_template('admin/add.html',msg = "Successful added text message")
@@ -370,8 +372,40 @@ def archives():
 
 
 @app.route("/requests")
-def adminrequest():
-    return render_template('admin/requests.html')
+def approval():
+    try:
+        mydisplay2 = """select id,file,status,type,who,seconds from slidetest where status = "%s" order by id desc"""
+        mycursor.execute(mydisplay2, (0, ))
+        display2 = mycursor.fetchall()
+        disps2 = [row for row in display2]
+        totalreq = """select count(status)from slidetest where status = %s """
+        mycursor.execute(totalreq, (0, ))
+        times = mycursor.fetchone()
+        time = [row for row in times]
+        return render_template('admin/requests.html', disp2 = disps2, times = time)
+    except Exception as e:
+        return(str(e))
+
+@app.route("/requests", methods=['POST'])
+def approvals():
+    if request.form['update'] == 'approve':
+        try:
+            ids = request.form['idsel']
+            act = request.form['statussel']
+            if ids == "select":
+                test_msg = "please select id"
+                return redirect(url_for('updates'))
+            else:
+                mydisplay = """update slidetest set status = %s where id = %s"""
+                mycursor.execute(mydisplay, (act, ids, ))
+                mydb.commit()
+                test_msg = "Successful"
+                return redirect(url_for('approval'))
+        except Exception as e:
+            test_msg = "an error occoured"
+            return redirect(url_for('approval'))
+
+
 
 
 @app.route("/ahome")
@@ -383,10 +417,106 @@ def adminhome():
 def userrequest():
     return render_template('user/userrequest.html')
 
+@app.route("/urequest", methods=['POST'])
+def userform():
+    usernames = session['username']
+    if request.form['formbtn'] == 'img':
+        file = request.files['imgfiles']
+        if file:
+            now = datetime.now().strftime("%d%m%Y%H%M%S")
+            dept = request.form['dept']
+            dseconds = request.form['duration']
+            if dseconds == '':
+              return render_template('user/userrequest.html',msg = "please add duration")
+            else:
+                ms = int(dseconds) * 1000    
+                category = "image"
+                filename = secure_filename(file.filename)
+                files = now + filename
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'],files))
+                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted, who, status) 
+                                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s) 
+                                    """, (files, 1, ms, dseconds, category, 0, usernames, 0)
+                mycursor.execute(*mySql)
+                mydb.commit()
+                return render_template('user/userrequest.html',msg = "Successful")
+        else:
+            return render_template('user/userrequest.html',msg = "please select a file")
+    elif request.form['formbtn'] == 'vid':
+        file = request.files['vidfiles']
+        if file:
+            now = datetime.now().strftime("%d%m%Y%H%M%S")
+            dept = request.form['deptvid']
+            dseconds = request.form['durationvid']
+            if dseconds == '':
+                return render_template('user/userrequest.html',msg = "please add duration")
+            else:
+                ms = int(dseconds) * 1000    
+                category = "video"
+                filename = secure_filename(file.filename)
+                files = now + filename
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'],files))
+                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted, who, status) 
+                                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s) 
+                                    """, (files, 1, ms, dseconds, category, 0, usernames, 0)
+                mycursor.execute(*mySql)
+                mydb.commit()
+                return render_template('user/userrequest.html',msg = "Successful added video")
+        else:
+            return render_template('user/userrequest.html',msg = "please select a video file")
+    elif request.form['formbtn'] == 'pdf':
+        file = request.files['pdffiles']
+        if file:
+            now = datetime.now().strftime("%d%m%Y%H%M%S")
+            dept = request.form['deptpdf']
+            dseconds = request.form['durationpdf']
+            if dseconds == '':
+                return render_template('user/userrequest.html',msg = "please add duration")
+            else:
+                ms = int(dseconds) * 1000    
+                category = "image"
+                filename = secure_filename(file.filename)
+                files = filename
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'],files))
+                pages = convert_from_path(app.config['UPLOAD_FOLDER']+ '/' + files, 500)
+                for i, page in enumerate(reversed(pages)):
+                    name = str(i) + now + 'pdf' + '.png'
+                    page.save(os.path.join(app.config['UPLOAD_FOLDER'],  name), 'PNG')
+                    mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted, who, status) 
+                                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s) 
+                                    """, (name, 1, ms, dseconds, category, 0, usernames, 0)
+                    mycursor.execute(*mySql)
+                    mydb.commit()
+                os.remove(app.config['UPLOAD_FOLDER']+ '/' + files)
+                return render_template('user/userrequest.html',msg = "Successful added pdf")
+        else:
+            return render_template('user/userrequest.html',msg = "please select a pdf file")            
+    elif request.form['formbtn'] == 'txt':
+        dept = request.form['depttxt']
+        dseconds = request.form['durationtxt']
+        if dseconds == '':
+            return render_template('user/userrequest.html',msg = "please add duration for text")
+        else:
+            ms = int(dseconds) * 1000    
+            category = "text"
+            file = request.form['textval']
+            if file == '':
+                return render_template('user/userrequest.html',msg = "Please add text")
+            else:
+                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted, who, status) 
+                                VALUES (%s,%s,%s,%s,%s,%s,%s,%s) 
+                                """, (file, 1, ms, dseconds, category, 0, usernames, 0)
+                mycursor.execute(*mySql)
+                mydb.commit()    
+            return render_template('user/userrequest.html',msg = "Successful added text message")
+    else:
+        return render_template('user/userrequest.html',msg = "something went wrong") 
+
 
 @app.route("/uhome")
 def userhome():
-    return render_template('user/userhome.html')
+    name = session['username']
+    return render_template('user/userhome.html', names = name.capitalize())
 
 
 if __name__ == '__main__':

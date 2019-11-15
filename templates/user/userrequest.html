@@ -1,5 +1,5 @@
 {% extends "user/usermaster.html" %}
-{% block headu %}
+{% block head %}
 <style>
     /* Bootstrap css */
     @import "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css";
@@ -16,7 +16,7 @@
     /* Propeller datetimepicker */
     @import "datetimepicker/css/pmd-datetimepicker.css";
      </style>
-{% endblock headu%}
+{% endblock head%}
 
 
 {% block content %}
@@ -39,44 +39,66 @@
 <script type="text/javascript" language="javascript" src="datetimepicker/js/bootstrap-datetimepicker.js"></script>
 
 <script>
-	// Linked date and time picker 
-	// start date date and time picker 
-	$('#datepicker-start').datetimepicker();
+    // Linked date and time picker 
+    // start date date and time picker 
+    $('#datepicker-start').datetimepicker();
 
-	// End date date and time picker 
-	$('#datepicker-end').datetimepicker({
-		useCurrent: false 
-	});
-	
-	// start date picke on chagne event [select minimun date for end date datepicker]
-	$("#datepicker-start").on("dp.change", function (e) {
-		$('#datepicker-end').data("DateTimePicker").minDate(e.date);
-	});
-	// Start date picke on chagne event [select maxmimum date for start date datepicker]
-	$("#datepicker-end").on("dp.change", function (e) {
-		$('#datepicker-start').data("DateTimePicker").maxDate(e.date);
-	});
+    // End date date and time picker 
+    $('#datepicker-end').datetimepicker({
+        useCurrent: false 
+    });
+    
+    // start date picke on chagne event [select minimun date for end date datepicker]
+    $("#datepicker-start").on("dp.change", function (e) {
+        $('#datepicker-end').data("DateTimePicker").minDate(e.date);
+    });
+    // Start date picke on chagne event [select maxmimum date for start date datepicker]
+    $("#datepicker-end").on("dp.change", function (e) {
+        $('#datepicker-start').data("DateTimePicker").maxDate(e.date);
+    });
 </script>
-
+ <form action="{{url_for('userform')}}" method="post" enctype="multipart/form-data">
 <div class="container">
+<br>
+  <h2>REQUEST NOTICE</h2>
+
+  <br>
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" data-toggle="tab" href="#image">Image</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#video">Video</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#pdf">PDF</a>
+    </li>
+        <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#text">Text</a>
+    </li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <!-- this is for images -->
+    <div id="image" class="container tab-pane active"><br>
+     
+      <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            <table class="table">
+            
+              <table class="table">
                 <thead>
                     <tr>
                         <th colspan="2">
-                                <h1 class="display-4">REQUEST A NOTICE</h1></th>
+                                <h1 class="display-4">Upload Image</h1></th>
 
                     </tr>
 
                 </thead>
                 <tbody>
-                    <tr>
-                        <td scope="row">
-                            <label for="names">NAME</label></td>
-                        <td><input type="text" name="names" id="names"></td>
 
-                    </tr>
                     <tr>
                         <div class="input-group">
                             <td scope="row">
@@ -88,20 +110,13 @@
                             <td>
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="inputGroupFile01"
-                                        aria-describedby="inputGroupFileAddon01">
+                                        aria-describedby="inputGroupFileAddon01" name="imgfiles" accept="image/*">
                                     <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                                 </div>
-                            </td                        
+                            </td  >                      
                         </div>
                     </tr>
-                    <tr>
-                        <td scope="row"><label for="username">File Type</label></td>
-                        <td><select class="form-control" id="sel1">
-                                <option>IMAGE</option>
-                                <option>VIDEO</option>
-                                <option>TEXT</option>
-                            </select> </td>
-                    </tr>
+
                     <tr>
                         <td scope="row">
                             post to-
@@ -109,90 +124,266 @@
                         <td>
                             <div class="form-check-inline">
                                 <label class="form-check-label" for="check1">
-                                    <input type="checkbox" class="form-check-input" id="check1" name="vehicle1"
-                                        value="something" checked>MCA
+                                    <input type="checkbox" class="form-check-input" id="check1" name="dept"
+                                        value="mca" checked>MCA
                                 </label>
                             </div>
-                            <div class="form-check-inline">
-                                <label class="form-check-label" for="check2">
-                                    <input type="checkbox" class="form-check-input" id="check2" name="vehicle2"
-                                        value="something">CS
-                                </label>
-                            </div>
-                            <div class="form-check-inline">
-                                    <label class="form-check-label" for="check1">
-                                        <input type="checkbox" class="form-check-input" id="check1" name="vehicle1"
-                                            value="something" checked>IT
-                                    </label>
-                                </div>
-                                <div class="form-check-inline">
-                                        <label class="form-check-label" for="check1">
-                                            <input type="checkbox" class="form-check-input" id="check1" name="vehicle1"
-                                                value="something" checked>EEE
-                                        </label>
-                                    </div>
-                                    <div class="form-check-inline">
-                                            <label class="form-check-label" for="check1">
-                                                <input type="checkbox" class="form-check-input" id="check1" name="vehicle1"
-                                                    value="something" checked>EI
-                                            </label>
-                                        </div>
-                                        <div class="form-check-inline">
-                                                <label class="form-check-label" for="check1">
-                                                    <input type="checkbox" class="form-check-input" id="check1" name="vehicle1"
-                                                        value="something" checked>EC
-                                                </label>
-                                            </div>
-                                            <div class="form-check-inline">
-                                                    <label class="form-check-label" for="check1">
-                                                        <input type="checkbox" class="form-check-input" id="check1" name="vehicle1"
-                                                            value="something" checked>CIVIL
-                                                    </label>
-                                                </div>
                         </td>
                     </tr>
-                  <tr>
-                      <td scope="row" colspan="2">
-                        <div class="row">
-                            <div class="col-sm-6"> 
-                                <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                                    <label class="control-label" for="datepicker-start">Start Time</label>
-                                    <input type="time" class="form-control" id="timepicker-start">
-                                </div>
-                            </div>
-                            <div class="col-sm-6"> 
-                                <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                                    <label class="control-label" for="datepicker-end">Start Date</label>
-                                    <input type="date" class="form-control" id="datepicker-start">
-                                </div>
-                            </div>
-                        </div>
-                      </td>
-                  </tr>
-                   
-                  <tr>
-                    <td scope="row" colspan="2">
-                      <div class="row">
-                          <div class="col-sm-6"> 
-                              <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                                  <label class="control-label" for="datepicker-start">End Time</label>
-                                  <input type="time" class="form-control" id="timepicker-end">
-                              </div>
-                          </div>
-                          <div class="col-sm-6"> 
-                              <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                                  <label class="control-label" for="datepicker-end">End Date</label>
-                                  <input type="date" class="form-control" id="datepicker-end">
-                             </div>
-                             </div>
-                            </tr>
-                                  
+                  
+
+                                  <tr>
+                                 <td scope="row">
+                               <label for="duration">Duration(in Seconds)</label>
+                                 </td>
+                                 <td>
+                                     <input type="number" name="duration" id="duration" min="1" >
+                                 </td>
+                             </tr>
                              
                              <tr>
                              <td scoper="row" align="right">
-                                    <button type="button" class="btn btn-info">Request</button>
+                                    <button type="submit" name="formbtn" value="img" class="btn btn-info">Request</button>
+
                              </td>
-                                
+ 
+                             </tr>
+                          {% if msg %}
+                          <tr><span class="badge badge-success"> {{ msg }} </span></tr>
+        
+         
+                          {% endif %}
+                      
+                    </td>
+                    
+                </tbody>
+            </table>
+            
+        </div>
+    </div>
+</div>
+    </div>
+    <!-- this is for video -->
+    <div id="video" class="container tab-pane fade"><br>
+      <div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th colspan="2">
+                                <h1 class="display-4">Upload Video</h1></th>
+
+                    </tr>
+
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <div class="input-group">
+                            <td scope="row">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                                    </div>
+                            </td>
+                            <td>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="inputGroupFile01"
+                                        aria-describedby="inputGroupFileAddon01" name="vidfiles" accept="video/*">
+                                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                </div>
+                            </td  >                      
+                        </div>
+                    </tr>
+
+                    <tr>
+                        <td scope="row">
+                            post to-
+                        </td>
+                        <td>
+                            <div class="form-check-inline">
+                                <label class="form-check-label" for="check1">
+                                    <input type="checkbox" class="form-check-input" id="check1" name="deptvid"
+                                        value="mca" checked>MCA
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                  
+
+                                  <tr>
+                                 <td scope="row">
+                               <label for="durationvid">Duration(in Seconds)</label>
+                                 </td>
+                                 <td>
+                                     <input type="number" name="durationvid" id="durationvid" min="1" >
+                                 </td>
+                             </tr>
+                             
+                             <tr>
+                             <td scoper="row" align="right">
+                <button type="submit" class="btn btn-info" name="formbtn"  value="vid">Request</button>
+                             </td>
+                                   
+                             </tr>
+                          {% if msg %}
+                          <tr><span class="badge badge-success"> {{ msg}} </span></tr>
+        
+         
+                          {% endif %}
+                      
+                    </td>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+    </div>
+    <!-- this is for pdf -->
+    <div id="pdf" class="container tab-pane fade"><br>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th colspan="2">
+                                <h1 class="display-4">Upload PDF</h1></th>
+
+                    </tr>
+
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <div class="input-group">
+                            <td scope="row">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                                    </div>
+                            </td>
+                            <td>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="inputGroupFile01"
+                                        aria-describedby="inputGroupFileAddon01" name="pdffiles" accept="application/pdf">
+                                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                </div>
+                            </td  >                      
+                        </div>
+                    </tr>
+
+                    <tr>
+                        <td scope="row">
+                            post to-
+                        </td>
+                        <td>
+                            <div class="form-check-inline">
+                                <label class="form-check-label" for="check1">
+                                    <input type="checkbox" class="form-check-input" id="check1" name="deptpdf"
+                                        value="mca" checked>MCA
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                  
+
+                                  <tr>
+                                 <td scope="row">
+                               <label for="durationpdf">Duration(in Seconds)</label>
+                                 </td>
+                                 <td>
+                                     <input type="number" name="durationpdf" id="durationpdf" min="1" >
+                                 </td>
+                             </tr>
+                             
+                             <tr>
+                             <td scoper="row" align="right">
+                <button type="submit" class="btn btn-info" name="formbtn"  value="pdf">Request</button>
+                             </td>
+                                   
+                             </tr>
+                          {% if msg %}
+                          <tr><span class="badge badge-success"> {{ msg }} </span></tr>
+        
+         
+                          {% endif %}
+                      
+                    </td>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+    </div>
+
+    <!-- this is for text -->
+    <div id="text" class="container tab-pane fade"><br>
+     
+        <div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th colspan="2">
+                                <h1 class="display-4">Upload Text</h1></th>
+
+                    </tr>
+
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <div class="input-group">
+                            <td scope="row">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupFileAddon01">ENTER TEXT:</span>
+                                    </div>
+                            </td>
+                            <td>
+                                <div class="custom-file">
+                                    <textarea rows="2" cols="80" name="textval">
+</textarea>
+                                  
+                                </div>
+                            </td  >                      
+                        </div>
+                    </tr>
+
+                    <tr>
+                        <td scope="row">
+                            post to-
+                        </td>
+                        <td>
+                            <div class="form-check-inline">
+                                <label class="form-check-label" for="check1">
+                                    <input type="checkbox" class="form-check-input" id="check1" name="depttxt"
+                                        value="mca" checked>MCA
+                                </label>
+                            </div>                       
+                        </td>
+                    </tr>
+                  
+
+                                  <tr>
+                                 <td scope="row">
+                               <label for="txtduration">Duration(in Seconds)</label>
+                                 </td>
+                                 <td>
+                                     <input type="number" name="durationtxt" id="durationtxt" >
+                                 </td>
+                             </tr>
+                             
+                             <tr>
+                             <td scoper="row" align="right">
+                            <button type="submit" name="formbtn"  value="txt" class="btn btn-info">Request</button>
+                             </td>
+   
                              </tr>
                       </div>
                     </td>
@@ -202,5 +393,10 @@
         </div>
     </div>
 </div>
-
+      
+    </div>    
+    
+  </div>
+</div>
+</form>
 {% endblock content %}
