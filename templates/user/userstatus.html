@@ -1,0 +1,54 @@
+{% extends "user/usermaster.html" %}
+{% block head %}
+{% endblock head%}
+
+{% block content %}
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <!-- bootsrap -->
+
+<div class="container">
+<table class="table table-hover">
+          <thead>
+              <tr>
+     
+                  <th>slide</th>
+                 
+                  
+                  <th>Status</th>
+              </tr>
+          </thead>
+          <tbody>
+            {% for sliders in disp2 %}
+              <tr>
+
+              <!-- file image,vid,txt -->
+                {% if sliders[2] == "image" %}
+                 <td><img class="img-fluid" src="/static/{{sliders[0]}}" alt="{{sliders[0]}}" height="200px" width="200px"></td>
+                  {% elif sliders[2] == "video" %}
+                  <td><video id="vids{{sliders[0]}}" class="embed-responsive-item" controls="true" muted="true" height="200px" width="200px">
+        <source src="/static/{{sliders[0]}}">
+        </video></td>
+                  {% else %}
+                  <td>{{sliders[0]}}</td>
+                  {% endif %}
+ 
+
+              
+                
+                <!-- active:yes or no -->
+                {% if sliders[1] == 0 %}
+                  <td><span class="label label-warning">Pending</span></td>
+                  {% elif sliders[1] == 1 %}
+                  <td><span class="label label-success">Accepted</span></td>
+                  {% else %}
+                  <td><span class="label label-danger">Rejected</span></td>
+                  {% endif %}
+              </tr>
+              
+              {% endfor %}
+          </tbody>
+      </table>
+	</div>   <!-- container div -->
+{% endblock content %}

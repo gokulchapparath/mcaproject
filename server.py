@@ -518,6 +518,14 @@ def userhome():
     name = session['username']
     return render_template('user/userhome.html', names = name.capitalize())
 
+@app.route("/mystatus")
+def mystatus():
+        usernames = session['username']
+        mydisplay2 = """select file,status,type from slidetest where who = %s order by id"""
+        mycursor.execute(mydisplay2, (usernames, ))
+        display2 = mycursor.fetchall()
+        disps2 = [row for row in display2]
+        return render_template('user/userstatus.html', disp2 = disps2)
 
 if __name__ == '__main__':
     app.run(debug=True)
