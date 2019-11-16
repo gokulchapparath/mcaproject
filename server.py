@@ -326,26 +326,34 @@ def updates():
 @app.route("/updatenotice", methods=['POST'])
 def updatesform():
     global test_msg
-    if request.form['update'] == 'toggle':
+    if request.form['update'] == 'on':
         try:
-            ids = request.form['idsel']
-            act = request.form['activesel']
-            if ids == "select":
-                test_msg = "please select id"
-                return redirect(url_for('updates'))
-            else:
-                mydisplay = """update slidetest set active = %s where id = %s"""
-                mycursor.execute(mydisplay, (act, ids, ))
-                mydb.commit()
-                test_msg = "Successful"
-                return redirect(url_for('updates'))
+            ids = request.form['toggleid']
+            act = 1
+            mydisplay = """update slidetest set active = %s where id = %s"""
+            mycursor.execute(mydisplay, (act, ids, ))
+            mydb.commit()
+            test_msg = "Successful"
+            return redirect(url_for('updates'))
+        except Exception as e:
+            test_msg = "an error occoured"
+            return redirect(url_for('updates'))
+    elif request.form['update'] == 'off':
+        try:
+            ids = request.form['toggleid']
+            act = 0
+            mydisplay = """update slidetest set active = %s where id = %s"""
+            mycursor.execute(mydisplay, (act, ids, ))
+            mydb.commit()
+            test_msg = "Successful"
+            return redirect(url_for('updates'))
         except Exception as e:
             test_msg = "an error occoured"
             return redirect(url_for('updates'))
     elif request.form['update'] == 'delete':
         try:
             ids = request.form['delidsel']
-            act = request.form['delsel']
+            act = 1
             if ids == "select":
                 test_msg = "please select id"
                 return redirect(url_for('updates'))
