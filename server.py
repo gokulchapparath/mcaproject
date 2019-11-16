@@ -310,8 +310,8 @@ def imgform():
 @app.route("/updatenotice")
 def updates():
     try:
-        mydisplay = """select id,file,active,type from slidetest where active = "%s" and deleted = "%s"  order by id desc"""
-        mycursor.execute(mydisplay, (1, 0, ))
+        mydisplay = """select id,file,active,type from slidetest where active = "%s" and deleted = "%s" and status = "%s"  order by id desc"""
+        mycursor.execute(mydisplay, (1, 0, 1, ))
         display = mycursor.fetchall()
         disps = [row for row in display]
         mydisplay2 = """select id,file,active,type from slidetest where deleted = "%s"  order by id desc"""
