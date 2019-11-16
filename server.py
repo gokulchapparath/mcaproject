@@ -131,12 +131,12 @@ def register_post():
                     try:
                         mySql = """INSERT INTO register (name, email, phone, types, password) 
                                 VALUES (%s,%s,%s,%s,%s) 
-                                """, (fullname, email, mobile, types, password)
+                                """, (fullname, email, mobile, types.lower(), password)
                         mycursor.execute(*mySql)
                         mydb.commit()
                         mySql1 = """INSERT INTO accounts (username, password, type) 
                                 VALUES (%s,%s,%s) 
-                                """, (fullname, password, types)
+                                """, (fullname, password, types.lower())
                         mycursor.execute(*mySql1)
                         mydb.commit()
 
@@ -154,8 +154,8 @@ def display():
         mycursor.execute(mydisplay, (1, 1, ))
         display = mycursor.fetchall()
         disps = [row for row in display]
-        totaltime = """select sum(seconds)+4 from slidetest where active = %s """
-        mycursor.execute(totaltime, (1, ))
+        totaltime = """select sum(seconds)+4 from slidetest where active = %s and status = %s """
+        mycursor.execute(totaltime, (1, 1, ))
         times = mycursor.fetchone()
         time = [row for row in times]
         file = []
@@ -374,7 +374,7 @@ def archives():
 @app.route("/requests")
 def approval():
     try:
-        mydisplay2 = """select id,file,status,type,who,seconds from slidetest where status = "%s" order by id desc"""
+        mydisplay2 = """select id,file,status,type,who,seconds from slidetest where status = "%s" order by id"""
         mycursor.execute(mydisplay2, (0, ))
         display2 = mycursor.fetchall()
         disps2 = [row for row in display2]
@@ -388,22 +388,30 @@ def approval():
 
 @app.route("/requests", methods=['POST'])
 def approvals():
-    if request.form['update'] == 'approve':
+    if request.form['approval'] == "1":
         try:
-            ids = request.form['idsel']
-            act = request.form['statussel']
-            if ids == "select":
-                test_msg = "please select id"
-                return redirect(url_for('updates'))
-            else:
-                mydisplay = """update slidetest set status = %s where id = %s"""
-                mycursor.execute(mydisplay, (act, ids, ))
-                mydb.commit()
-                test_msg = "Successful"
-                return redirect(url_for('approval'))
+            ids = request.form['approvalid']
+            mydisplay = """update slidetest set status = %s where id = %s"""
+            mycursor.execute(mydisplay, (1, ids, ))
+            mydb.commit()
+            test_msg = "Successful"
+            return redirect(url_for('approval'))
+                
         except Exception as e:
             test_msg = "an error occoured"
             return redirect(url_for('approval'))
+    elif request.form['approval'] == "-1":
+        try:
+            ids = request.form['approvalid']
+            mydisplay = """update slidetest set status = %s where id = %s"""
+            mycursor.execute(mydisplay, (-1, ids, ))
+            mydb.commit()
+            test_msg = "Successful"
+            return redirect(url_for('approval'))
+        except Exception as e:
+            test_msg = "an error occoured"
+            return redirect(url_for('approval'))
+
 
 
 

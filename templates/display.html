@@ -2,7 +2,12 @@
 <html lang="en">
 <head>
  <meta charset="utf-8">
+ {% if times == NULL %}
+ <meta http-equiv="refresh" content="4">
+ {% else %}
  <meta http-equiv="refresh" content="{{times}}">
+{% endif %}
+ 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="cache-control" content="no-cache" />
 <meta http-equiv="Pragma" content="no-cache" />

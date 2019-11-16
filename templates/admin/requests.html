@@ -33,7 +33,7 @@
     {% if times %}
      <span class="badge badge-danger">you have {{times[0]}} Requests</span>
     {% endif %}
-      <div class="container-fluid">
+<!--       <div class="container-fluid">
       <table class="table table-hover">
         <thead>
           <tr>
@@ -63,7 +63,7 @@
         </tbody>
       </table>
 
-</div>
+</div> -->
 <hr>
 <hr>
   <div class="container-fluid">
@@ -77,13 +77,17 @@
                   <th>Requested By</th>
                   <th>Requested time(Sec)</th>
                   <th>Status</th>
+                  <th>Action</th>
               </tr>
           </thead>
           <tbody>
             {% for sliders in disp2 %}
               <tr>
                 <!-- id -->
-                <td>{{sliders[0]}}</td>
+                <td>    
+                  <input type="hidden" name="approvalid" value="{{sliders[0]}}" id="minput" />
+                {{sliders[0]}}
+              </td>
               <!-- file image,vid,txt -->
                 {% if sliders[3] == "image" %}
                  <td><img class="img-fluid" src="/static/{{sliders[1]}}" alt="{{sliders[1]}}" height="150px" width="150px"></td>
@@ -104,6 +108,12 @@
                 {%if sliders[2] == 0 %}
                   <td>Pending</td>
                   {% endif %}
+
+                  <td>
+                    <button type="submit" name="approval" value="1" class="btn btn-success">Accept</button>
+                    <br>
+                    <button type="submit" name="approval" value="-1" class="btn btn-danger">Reject</button>
+                  </td>
               </tr>
               
               {% endfor %}
