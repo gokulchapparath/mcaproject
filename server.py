@@ -305,7 +305,32 @@ def imgform():
             return render_template('admin/add.html',msg = "Successful added text message")
     else:
         return render_template('admin/add.html',msg = "something went wrong")
-            
+
+@app.route("/togglenotice")
+def toggles():
+    try:
+        mydisplay2 = """select id,file,active,type from slidetest where deleted = "%s"  order by id desc"""
+        mycursor.execute(mydisplay2, (0, ))
+        display2 = mycursor.fetchall()
+        disps2 = [row for row in display2]
+        return render_template('admin/toggle.html',disp2 = disps2)
+    except Exception as e:
+        return(str(e))
+
+@app.route("/togglenotice", methods=['POST'])
+def toggled():
+    if request.form['update'] == "toggle":
+        try:
+            act = request.form['activesel']
+            ids = request.form['idsel']
+            mydisplay = """update slidetest set active = %s where id = %s"""
+            mycursor.execute(mydisplay, (act, ids, ))
+            mydb.commit()
+            return redirect(url_for('toggles'))
+        except Exception:
+            return redirect(url_for('toggles'))            
+
+
             
 @app.route("/updatenotice")
 def updates():
@@ -324,35 +349,9 @@ def updates():
         return(str(e))
 
 @app.route("/updatenotice", methods=['POST'])
-def updatesform():
-    global test_msg
-    if request.form['update'] == 'on':
+def deleteform():
         try:
-            ids = request.form['toggleid']
-            act = 1
-            mydisplay = """update slidetest set active = %s where id = %s"""
-            mycursor.execute(mydisplay, (act, ids, ))
-            mydb.commit()
-            test_msg = "Successful"
-            return redirect(url_for('updates'))
-        except Exception as e:
-            test_msg = "an error occoured"
-            return redirect(url_for('updates'))
-    elif request.form['update'] == 'off':
-        try:
-            ids = request.form['toggleid']
-            act = 0
-            mydisplay = """update slidetest set active = %s where id = %s"""
-            mycursor.execute(mydisplay, (act, ids, ))
-            mydb.commit()
-            test_msg = "Successful"
-            return redirect(url_for('updates'))
-        except Exception as e:
-            test_msg = "an error occoured"
-            return redirect(url_for('updates'))
-    elif request.form['update'] == 'delete':
-        try:
-            ids = request.form['delidsel']
+            ids = request.form['update']
             act = 1
             if ids == "select":
                 test_msg = "please select id"
@@ -363,9 +362,45 @@ def updatesform():
                 mydb.commit()
                 test_msg = "Successful"
                 return redirect(url_for('updates'))
-        except Exception as e:
+        except Exception:
             test_msg = "an error occoured"
             return redirect(url_for('updates'))
+
+@app.route("/updatenotice", methods=['POST'])
+def toggleformon():
+    ids = request.form['updateon']
+    print('turned on' + ids)
+    return redirect(url_for('updates'))
+    # if request.form['updateon']:
+        # try:
+        #     act = 1
+        #     mydisplay = """update slidetest set active = %s where id = %s"""
+        #     mycursor.execute(mydisplay, (act, ids, ))
+        #     mydb.commit()
+        #     test_msg = "Successful"
+        #     return redirect(url_for('updates'))
+        # except Exception as e:
+        #     test_msg = "an error occoured"
+        #     return redirect(url_for('updates'))
+    # elif request.form['updateoff']:
+    #     try:
+    #         ids = request.form['updateoff']
+    #         act = 0
+    #         mydisplay = """update slidetest set active = %s where id = %s"""
+    #         mycursor.execute(mydisplay, (act, ids, ))
+    #         mydb.commit()
+    #         test_msg = "Successful"
+    #         return redirect(url_for('updates'))
+    #     except Exception as e:
+    #         test_msg = "an error occoured"
+    #         return redirect(url_for('updates'))
+
+@app.route("/updatenotice", methods=['PUT'])
+def toggleformoff():
+    if request.form['updatoff']:
+        ids = request.form['updateoff']
+        print('turned on' + ids)
+        return redirect(url_for('updates'))
 
 @app.route("/archives")
 def archives():
@@ -452,7 +487,7 @@ def userform():
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'],files))
                 mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted, who, status) 
                                     VALUES (%s,%s,%s,%s,%s,%s,%s,%s) 
-                                    """, (files, 1, ms, dseconds, category, 0, usernames, 0)
+                                    """, (files, 0, ms, dseconds, category, 0, usernames, 0)
                 mycursor.execute(*mySql)
                 mydb.commit()
                 return render_template('user/userrequest.html',msg = "Successful")
@@ -474,7 +509,7 @@ def userform():
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'],files))
                 mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted, who, status) 
                                     VALUES (%s,%s,%s,%s,%s,%s,%s,%s) 
-                                    """, (files, 1, ms, dseconds, category, 0, usernames, 0)
+                                    """, (files, 0, ms, dseconds, category, 0, usernames, 0)
                 mycursor.execute(*mySql)
                 mydb.commit()
                 return render_template('user/userrequest.html',msg = "Successful added video")
@@ -500,7 +535,7 @@ def userform():
                     page.save(os.path.join(app.config['UPLOAD_FOLDER'],  name), 'PNG')
                     mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted, who, status) 
                                     VALUES (%s,%s,%s,%s,%s,%s,%s,%s) 
-                                    """, (name, 1, ms, dseconds, category, 0, usernames, 0)
+                                    """, (name, 0, ms, dseconds, category, 0, usernames, 0)
                     mycursor.execute(*mySql)
                     mydb.commit()
                 os.remove(app.config['UPLOAD_FOLDER']+ '/' + files)
@@ -521,7 +556,7 @@ def userform():
             else:
                 mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted, who, status) 
                                 VALUES (%s,%s,%s,%s,%s,%s,%s,%s) 
-                                """, (file, 1, ms, dseconds, category, 0, usernames, 0)
+                                """, (file, 0, ms, dseconds, category, 0, usernames, 0)
                 mycursor.execute(*mySql)
                 mydb.commit()    
             return render_template('user/userrequest.html',msg = "Successful added text message")

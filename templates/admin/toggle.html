@@ -1,0 +1,111 @@
+{% extends "admin/adminmaster.html" %}
+{% block head %}
+<style>
+    /* Bootstrap css */
+    @import "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css";
+    
+    /* Google Material icons */
+    @import "http://fonts.googleapis.com/icon?family=Material+Icons";
+    
+    /* Propeller css */
+/*    @import "dist/css/propeller.min.css";*/
+    
+    /* Bootstrap datetimepicker */
+/*    @import "datetimepicker/css/bootstrap-datetimepicker.css";*/
+    
+    /* Propeller datetimepicker */
+/*    @import "datetimepicker/css/pmd-datetimepicker.css";*/
+     </style>
+{% endblock head%}
+
+
+{% block content %}
+
+  <!-- bootsrap -->
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <!-- bootsrap -->
+ 
+      <h3>Toggle Notice</h3>
+      <div class="container-fluid">
+         <form  action="{{url_for('toggled')}}" method="post" enctype="multipart/form-data">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>id</th>
+            <th>activate</th>
+            <th>update</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><select name="idsel">
+              <option value="select">select id</option>
+              {% for sliders in disp2 %}
+              <option value="{{sliders[0]}}">{{sliders[0]}}</option>
+              {% endfor %}
+            </select></td></td>
+            <td><select name="activesel">
+              <option value="1">Yes</option>
+              <option value="0">NO</option>
+            </select></td>
+            <td><button type="submit" name="update" value="toggle" class="btn btn-primary btn-block">Update</button></td>
+          </tr>
+          <tr><div>                          {% if msg %}
+        <span class="badge badge-danger"> {{ msg }} </span>
+         
+    {% endif %}</div></tr>
+        </tbody>
+      </table>
+</form>
+</div>
+<hr>
+<hr>
+
+  <div class="container-fluid">
+                  
+  <table class="table table-hover">
+          <thead>
+              <tr>
+                  <th>slide-id</th>
+                  <th>slide</th>
+                  <th>active?</th>
+                  <th colspan="2" style="text-align: center;">Action</th>
+              </tr>
+          </thead>
+          <tbody>
+            {% for sliders in disp2 %}
+              <tr id="{{sliders[0]}}">
+                <!-- id -->
+                <td >
+                  {{sliders[0]}}
+
+                </td>
+              <!-- file image,vid,txt -->
+                {% if sliders[3] == "image" %}
+                 <td><img class="img-fluid" src="/static/{{sliders[1]}}" alt="{{sliders[1]}}" height="150px" width="150px"></td>
+                  {% elif sliders[3] == "video" %}
+                  <td><video id="vids{{sliders[0]}}" class="embed-responsive-item" controls="true" muted="true" height="150px" width="150px">
+        <source src="/static/{{sliders[1]}}">
+        </video></td>
+                  {% else %}
+                  <td>{{sliders[1]}}</td>
+                  {% endif %}
+                <!-- active:yes or no -->
+                {%if sliders[2] == 1 %}
+                  <td>yes</td>
+                {% else %}
+                <td>no</td>
+              
+              {% endif %}
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+     
+  </div>
+
+
+  {% endblock content %}

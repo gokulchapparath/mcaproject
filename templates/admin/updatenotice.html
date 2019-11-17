@@ -8,19 +8,19 @@
     @import "http://fonts.googleapis.com/icon?family=Material+Icons";
     
     /* Propeller css */
-    @import "dist/css/propeller.min.css";
+/*    @import "dist/css/propeller.min.css";*/
     
     /* Bootstrap datetimepicker */
-    @import "datetimepicker/css/bootstrap-datetimepicker.css";
+/*    @import "datetimepicker/css/bootstrap-datetimepicker.css";*/
     
     /* Propeller datetimepicker */
-    @import "datetimepicker/css/pmd-datetimepicker.css";
+/*    @import "datetimepicker/css/pmd-datetimepicker.css";*/
      </style>
 {% endblock head%}
 
 
 {% block content %}
-<form action="{{url_for('updatesform')}}" method="post" enctype="multipart/form-data">
+
   <!-- bootsrap -->
    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
@@ -31,7 +31,6 @@
 <div class="container">
   <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#notice">Notice List</a></li>
-    <li><a data-toggle="tab" href="#toggle">Toggle Notice</a></li>
     <li><a data-toggle="tab" href="#delete">Delete</a></li>
   </ul>
 
@@ -73,10 +72,11 @@
           </tbody>
       </table>
     </div>
-    <!-- toggle on and off slides -->
 
+    <!-- toggle on and off slides -->
+<!-- 
     <div id="toggle" class="tab-pane fade">
-      <h3>Toggle Notice</h3>
+      <h3>Toggle Notice</h3> -->
 <!--       <div class="container-fluid">
       <table class="table table-hover">
         <thead>
@@ -110,10 +110,11 @@
 </div>
 <hr>
 <hr> -->
-  <div class="container-fluid">
+
+<!--   <div class="container-fluid"> -->
     
   
-  <table class="table table-hover">
+<!--   <table class="table table-hover">
           <thead>
               <tr>
                   <th>slide-id</th>
@@ -124,14 +125,14 @@
           </thead>
           <tbody>
             {% for sliders in disp2 %}
-              <tr>
+              <tr id="{{sliders[0]}}"> -->
                 <!-- id -->
-                <td>
+<!--                 <td >
                   {{sliders[0]}}
-                  <input type="hidden" name="toggleid" value="{{sliders[0]}}"  />
-                </td>
+
+                </td> -->
               <!-- file image,vid,txt -->
-                {% if sliders[3] == "image" %}
+<!--                 {% if sliders[3] == "image" %}
                  <td><img class="img-fluid" src="/static/{{sliders[1]}}" alt="{{sliders[1]}}" height="150px" width="150px"></td>
                   {% elif sliders[3] == "video" %}
                   <td><video id="vids{{sliders[0]}}" class="embed-responsive-item" controls="true" muted="true" height="150px" width="150px">
@@ -139,23 +140,37 @@
         </video></td>
                   {% else %}
                   <td>{{sliders[1]}}</td>
-                  {% endif %}
+                  {% endif %} -->
                 <!-- active:yes or no -->
-                {%if sliders[2] == 1 %}
+<!--                 {%if sliders[2] == 1 %}
                   <td>yes</td>
                 {% else %}
                 <td>no</td>
               
-              {% endif %}
-            <td align="right"><button type="submit" name="update" value="on" class="btn btn-success">ON</button></td>
-            <td align="left"><button type="submit" name="update" value="off" class="btn btn-danger">OFF</button></td>
+              {% endif %} -->
+
+             
+<!--             <td align="center">
+               <form  action="{{url_for('toggleformon')}}" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="toggleid" value="{{sliders[0]}}" />
+              <button type="submit" name="updateon" value="{{sliders[0]}}" class="btn btn-success">TURN ON</button>
+                  </form>
+                <form name="formoff{{sliders[0]}}" action="{{url_for('toggleformoff')}}" method="post" enctype="multipart/form-data">
+            <button type="submit" name="updateoff" value="{{sliders[0]}}" class="btn btn-danger">TURN OFF</button>
+          </form>
+        
+          </td>
+
               </tr>
               {% endfor %}
           </tbody>
       </table>
   </div>
-    </div>
+
+    </div> -->
+
     <!-- deleting slides -->
+   
     <div id="delete" class="tab-pane fade">
       <h3>Delete Notice</h3>
  <!--      <div class="container-fluid">
@@ -191,6 +206,7 @@
 </div>
 <hr>
 <hr> -->
+ <form action="{{url_for('deleteform')}}" method="post" enctype="multipart/form-data">
   <div class="container-fluid">
     
   
@@ -208,11 +224,11 @@
               <tr>
                 <!-- id -->
                 <td>{{sliders[0]}}
-<input type="hidden" name="delidsel" value="{{sliders[0]}}"  />
+<input type="hidden" id="del{{sliders[0]}}" name="delidsel" value="{{sliders[0]}}"  />
                 </td>
               <!-- file image,vid,txt -->
                 {% if sliders[3] == "image" %}
-                 <td><img class="img-fluid" src="/static/{{sliders[1]}}" alt="{{sliders[1]}}" height="150px" width="150px"></td>
+    <td><img class="img-fluid" src="/static/{{sliders[1]}}" alt="{{sliders[1]}}" height="150px" width="150px"></td>
                   {% elif sliders[3] == "video" %}
                   <td><video id="vids{{sliders[0]}}" class="embed-responsive-item" controls="true" muted="true" height="150px" width="150px">
         <source src="/static/{{sliders[1]}}">
@@ -227,7 +243,7 @@
                 <td>no</td>
 
               {% endif %}
-            <td style="text-align: center;"><button type="submit" name="update" value="delete" class="btn btn-danger"><i class="large material-icons">delete</i></button></td>
+            <td style="text-align: center;"><button type="submit" name="update" value="{{sliders[0]}}" class="btn btn-danger"><i class="large material-icons">delete</i></button></td>
               </tr>
               {% endfor %}
           </tbody>
@@ -236,6 +252,7 @@
     </div>
     <!-- upto here -->
   </div>
+  </form>
 </div>
-</form>
+
 {% endblock content %}
