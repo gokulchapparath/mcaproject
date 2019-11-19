@@ -149,7 +149,6 @@ def register_post():
 
 @app.route("/display")
 def display():
-    try:
         mydisplay = """select file,ms,type from slidetest where active = %s and status = %s order by id desc"""
         mycursor.execute(mydisplay, (1, 1, ))
         display = mycursor.fetchall()
@@ -159,10 +158,8 @@ def display():
         times = mycursor.fetchone()
         time = [row for row in times]
         file = []
-
         return render_template('display.html', disp = disps, times = time[0])
-    except Exception as e:
-        return(str(e))
+
 
 @app.route("/testdisplay")
 def testdisplay():
@@ -319,10 +316,13 @@ def toggles():
 
 @app.route("/togglenotice", methods=['POST'])
 def toggled():
-    if request.form['update'] == "toggle":
+        btval = request.form['update']
         try:
-            act = request.form['activesel']
-            ids = request.form['idsel']
+            ids = btval.split('.')[0]
+            if btval.split('.')[1] == '1':
+                act = '1'
+            else:
+                act = '0'    
             mydisplay = """update slidetest set active = %s where id = %s"""
             mycursor.execute(mydisplay, (act, ids, ))
             mydb.commit()
@@ -416,7 +416,6 @@ def archives():
 
 @app.route("/requests")
 def approval():
-    try:
         mydisplay2 = """select id,file,status,type,who,seconds from slidetest where status = "%s" order by id"""
         mycursor.execute(mydisplay2, (0, ))
         display2 = mycursor.fetchall()
@@ -426,37 +425,24 @@ def approval():
         times = mycursor.fetchone()
         time = [row for row in times]
         return render_template('admin/requests.html', disp2 = disps2, times = time)
-    except Exception as e:
-        return(str(e))
 
 @app.route("/requests", methods=['POST'])
 def approvals():
-    if request.form['approval'] == "1":
-        try:
-            ids = request.form['approvalid']
-            mydisplay = """update slidetest set status = %s where id = %s"""
-            mycursor.execute(mydisplay, (1, ids, ))
-            mydb.commit()
-            test_msg = "Successful"
-            return redirect(url_for('approval'))
-                
-        except Exception as e:
-            test_msg = "an error occoured"
-            return redirect(url_for('approval'))
-    elif request.form['approval'] == "-1":
-        try:
-            ids = request.form['approvalid']
-            mydisplay = """update slidetest set status = %s where id = %s"""
-            mycursor.execute(mydisplay, (-1, ids, ))
-            mydb.commit()
-            test_msg = "Successful"
-            return redirect(url_for('approval'))
-        except Exception as e:
-            test_msg = "an error occoured"
-            return redirect(url_for('approval'))
-
-
-
+    btval = request.form['approval']
+    try:
+        ids = btval.split('.')[0]
+        if btval.split('.')[1] == '1':
+            stat = 1
+        else:
+            stat = -1
+        mydisplay = """update slidetest set status = %s where id = %s"""
+        mycursor.execute(mydisplay, (stat, ids, ))
+        mydb.commit()
+        test_msg = "Successful"
+        return redirect(url_for('approval'))               
+    except Exception as e:
+        test_msg = "an error occoured"
+        return redirect(url_for('approval'))
 
 
 @app.route("/ahome")

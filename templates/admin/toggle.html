@@ -29,7 +29,7 @@
   <!-- bootsrap -->
  
       <h3>Toggle Notice</h3>
-      <div class="container-fluid">
+      <!-- <div class="container-fluid">
          <form  action="{{url_for('toggled')}}" method="post" enctype="multipart/form-data">
       <table class="table table-hover">
         <thead>
@@ -60,51 +60,54 @@
         </tbody>
       </table>
 </form>
-</div>
-<hr>
-<hr>
+</div> -->
+
 
   <div class="container-fluid">
-                  
+  <form  action="{{url_for('toggled')}}" method="post" enctype="multipart/form-data">
   <table class="table table-hover">
           <thead>
               <tr>
-                  <th>slide-id</th>
-                  <th>slide</th>
-                  <th>active?</th>
-                  <th colspan="2" style="text-align: center;">Action</th>
+                  <th style="text-align:center;">slide-id</th>
+                  <th style="text-align:center;">slide</th>
+                  <th style="text-align:center;">active?</th>
+                  <th style="text-align:center;">Action</th>
               </tr>
           </thead>
           <tbody>
             {% for sliders in disp2 %}
-              <tr id="{{sliders[0]}}">
+              <tr>
                 <!-- id -->
-                <td >
+                <td style="text-align:center;">
                   {{sliders[0]}}
 
                 </td>
               <!-- file image,vid,txt -->
                 {% if sliders[3] == "image" %}
-                 <td><img class="img-fluid" src="/static/{{sliders[1]}}" alt="{{sliders[1]}}" height="150px" width="150px"></td>
+                 <td style="text-align:center;"><img class="img-fluid" src="/static/{{sliders[1]}}" alt="{{sliders[1]}}" height="150px" width="150px"></td>
                   {% elif sliders[3] == "video" %}
-                  <td><video id="vids{{sliders[0]}}" class="embed-responsive-item" controls="true" muted="true" height="150px" width="150px">
+                  <td style="text-align:center;"><video id="vids{{sliders[0]}}" class="embed-responsive-item" controls="true" muted="true" height="150px" width="150px">
         <source src="/static/{{sliders[1]}}">
         </video></td>
                   {% else %}
-                  <td>{{sliders[1]}}</td>
+                  <td style="text-align:center;">{{sliders[1]}}</td>
                   {% endif %}
                 <!-- active:yes or no -->
                 {%if sliders[2] == 1 %}
-                  <td>yes</td>
+                  <td style="text-align:center;">yes</td>
                 {% else %}
-                <td>no</td>
-              
+                <td style="text-align:center;">no</td>
+              {% endif %}
+                {%if sliders[2] == 1 %}
+                  <td style="text-align:center;"><button type="submit" name="update" value="{{sliders[0]}}.0" class="btn btn-danger">TURN OFF</button></td>
+                {% else %}
+                 <td style="text-align:center;"><button type="submit" name="update" value="{{sliders[0]}}.1" class="btn btn-success">TURN ON</button></td>
               {% endif %}
               </tr>
               {% endfor %}
           </tbody>
       </table>
-     
+     </form>
   </div>
 
 
