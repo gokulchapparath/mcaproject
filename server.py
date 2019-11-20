@@ -23,15 +23,14 @@ mydb = mysql.connector.connect(
 )
 mycursor = mydb.cursor(buffered=True)
 
+# @app.route("/masteru")
+# def user():
+#     return render_template('user/usermaster.html')
 
-@app.route("/masteru")
-def user():
-    return render_template('user/usermaster.html')
 
-
-@app.route("/mastera")
-def admin():
-    return render_template('admin/adminmaster.html')
+# @app.route("/mastera")
+# def admin():
+#     return render_template('admin/adminmaster.html')
 
 
 @app.route("/")
@@ -139,8 +138,6 @@ def register_post():
                                 """, (fullname, password, types.lower())
                         mycursor.execute(*mySql1)
                         mydb.commit()
-
-
                         # return("okay")
                         return render_template('registration.html', ok="Successful")
                     except Exception as e:
@@ -169,17 +166,6 @@ def testdisplay():
         mycursor.execute(mydisplay, (0, ))
         display = mycursor.fetchall()
         disps = [row for row in display]
-        # print(disps)
-        # mycount = mycursor.execute("""select count(*) from slidetest""")
-        # mycursor.execute(mycount)
-        # count =mycursor.fetchone()
-        # x = count[0]
-        # print("x is" + str(x))
-        # disps = []
-        # for row in display:
-        #     print(row[0])
-        #     disps = row[0]
-        # print(disps)
         return render_template('test_disp.html', disp=disps)
     except Exception as e:
         return(str(e))
@@ -343,7 +329,6 @@ def updates():
         mycursor.execute(mydisplay2, (0, ))
         display2 = mycursor.fetchall()
         disps2 = [row for row in display2]
-
         return render_template('admin/updatenotice.html', disp = disps, disp2 = disps2)
     except Exception as e:
         return(str(e))
@@ -366,41 +351,6 @@ def deleteform():
             test_msg = "an error occoured"
             return redirect(url_for('updates'))
 
-@app.route("/updatenotice", methods=['POST'])
-def toggleformon():
-    ids = request.form['updateon']
-    print('turned on' + ids)
-    return redirect(url_for('updates'))
-    # if request.form['updateon']:
-        # try:
-        #     act = 1
-        #     mydisplay = """update slidetest set active = %s where id = %s"""
-        #     mycursor.execute(mydisplay, (act, ids, ))
-        #     mydb.commit()
-        #     test_msg = "Successful"
-        #     return redirect(url_for('updates'))
-        # except Exception as e:
-        #     test_msg = "an error occoured"
-        #     return redirect(url_for('updates'))
-    # elif request.form['updateoff']:
-    #     try:
-    #         ids = request.form['updateoff']
-    #         act = 0
-    #         mydisplay = """update slidetest set active = %s where id = %s"""
-    #         mycursor.execute(mydisplay, (act, ids, ))
-    #         mydb.commit()
-    #         test_msg = "Successful"
-    #         return redirect(url_for('updates'))
-    #     except Exception as e:
-    #         test_msg = "an error occoured"
-    #         return redirect(url_for('updates'))
-
-@app.route("/updatenotice", methods=['PUT'])
-def toggleformoff():
-    if request.form['updatoff']:
-        ids = request.form['updateoff']
-        print('turned on' + ids)
-        return redirect(url_for('updates'))
 
 @app.route("/archives")
 def archives():
