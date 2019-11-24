@@ -1,1 +1,4 @@
 google-chrome --kiosk http://example.com
+
+
+https://serverfault.com/questions/487535/how-to-allow-mysql-remote-access-from-a-dynamic-ip
