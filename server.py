@@ -28,6 +28,11 @@ mycursor = mydb.cursor(buffered=True)
 #     return render_template('user/usermaster.html')
 
 
+# @app.route("/test")
+# def user():
+#     return render_template('test.html')
+
+
 # @app.route("/mastera")
 # def admin():
 #     return render_template('admin/adminmaster.html')
@@ -86,7 +91,6 @@ def register():
 
 @app.route("/register", methods=['POST'])
 def register_post():
-        #global fullname, email, mobile, types, password
     global errorname
     email = request.form['email']
     fullname = request.form['fullname']    
@@ -101,11 +105,11 @@ def register_post():
     elif(len(fullname) == 0):
         errorname = "please type"
         nameerror = True
-        return render_template('registration.html', errorname=errorname)
-    elif(email == emails[0]):
-        errormail = "exsiting email found"
-        nameerror = True
-        return render_template('registration.html', errormail=errormail)
+        return render_template('registration.html', errorname=errorname)        
+    # elif(email == emails[0]):
+    #     errormail = "exsiting email found"
+    #     nameerror = True
+    #     return render_template('registration.html', errormail=errormail)
     else:
         mobile = request.form['mobile']
         y = mobile.isdigit()
@@ -153,12 +157,12 @@ def register_post():
 
 @app.route("/display")
 def display():
-        mydisplay = """select file,ms,type from slidetest where active = %s and status = %s order by id desc"""
-        mycursor.execute(mydisplay, (1, 1, ))
+        mydisplay = """select file,ms,type from slidetest where active = %s and status = %s and deleted = %s order by id desc"""
+        mycursor.execute(mydisplay, (1, 1, 0, ))
         display = mycursor.fetchall()
         disps = [row for row in display]
-        totaltime = """select sum(seconds)+4 from slidetest where active = %s and status = %s """
-        mycursor.execute(totaltime, (1, 1, ))
+        totaltime = """select sum(seconds)+4 from slidetest where active = %s and status = %s and deleted = %s """
+        mycursor.execute(totaltime, (1, 1, 0, ))
         times = mycursor.fetchone()
         time = [row for row in times]
         file = []
@@ -299,8 +303,8 @@ def imgform():
 @app.route("/togglenotice")
 def toggles():
     try:
-        mydisplay2 = """select id,file,active,type from slidetest where deleted = "%s"  order by id desc"""
-        mycursor.execute(mydisplay2, (0, ))
+        mydisplay2 = """select id,file,active,type from slidetest where status = %s and deleted = %s  order by id desc"""
+        mycursor.execute(mydisplay2, (1, 0, ))
         display2 = mycursor.fetchall()
         disps2 = [row for row in display2]
         return render_template('admin/toggle.html',disp2 = disps2)
