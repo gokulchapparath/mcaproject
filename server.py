@@ -94,7 +94,7 @@ def register_post():
     global errorname
     email = request.form['email']
     fullname = request.form['fullname']    
-    myemail = """select email from register where email = %s"""
+    myemail = """select count(email) from register where email = %s"""
     mycursor.execute(myemail, (email, ))
     emails = mycursor.fetchone()
     x = any(char.isdigit() for char in fullname)
@@ -106,10 +106,10 @@ def register_post():
         errorname = "please type"
         nameerror = True
         return render_template('registration.html', errorname=errorname)        
-    # elif(email == emails[0]):
-    #     errormail = "exsiting email found"
-    #     nameerror = True
-    #     return render_template('registration.html', errormail=errormail)
+    elif(emails[0] > 0):
+        errormail = "exsiting email found"
+        nameerror = True
+        return render_template('registration.html', errormail=errormail)
     else:
         mobile = request.form['mobile']
         y = mobile.isdigit()
