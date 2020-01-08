@@ -23,7 +23,7 @@ mydb = mysql.connector.connect(
 )
 mycursor = mydb.cursor(buffered=True)
 
-@mcadisp.route("/")
+@mcadisp.route("/screen2")
 def display():
         mydisplay = """select file,ms,type from slidetest where active = %s and status = %s and deleted = %s order by id desc"""
         mycursor.execute(mydisplay, (1, 1, 0, ))
@@ -34,7 +34,7 @@ def display():
         times = mycursor.fetchone()
         time = [row for row in times]
         file = []
-        return render_template('display.html', disp = disps, times = time[0])
+        return render_template('screens/screen2.html', disp = disps, times = time[0])
 
 if __name__ == '__main__':
     mcadisp.run(debug=False, port=5555)

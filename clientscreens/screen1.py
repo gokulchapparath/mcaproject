@@ -9,11 +9,11 @@ from werkzeug.utils import secure_filename
 import re
 import os
 
-mcadisp = Flask(__name__, static_url_path='/static')
-mcadisp.config['SECRET_KEY'] = 'fd5135666bac8fe98033e86b90251504'
+disp1 = Flask(__name__, static_url_path='/static')
+disp1.config['SECRET_KEY'] = 'fd5135666bac8fe98033e86b90251504'
 UPLOAD_FOLDER = './static'
-mcadisp.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-# mcadisp.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+disp1.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+# disp1.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 # db = SQLAlchemy(mcadisp)
 mydb = mysql.connector.connect(
     host="127.0.0.1",
@@ -23,18 +23,18 @@ mydb = mysql.connector.connect(
 )
 mycursor = mydb.cursor(buffered=True)
 
-@mcadisp.route("/")
+@disp1.route("/")
 def display():
-        mydisplay = """select file,ms,type from slidetest where active = %s and status = %s and deleted = %s order by id desc"""
-        mycursor.execute(mydisplay, (1, 1, 0, ))
+        mydisplay = """select file,ms,type from slidetest where active = %s and status = %s and deleted = %s and screen1 = %s order by id desc"""
+        mycursor.execute(mydisplay, (1, 1, 0, 1, ))
         display = mycursor.fetchall()
         disps = [row for row in display]
-        totaltime = """select sum(seconds)+4 from slidetest where active = %s and status = %s and deleted = %s """
-        mycursor.execute(totaltime, (1, 1, 0, ))
+        totaltime = """select sum(seconds)+4 from slidetest where active = %s and status = %s and deleted = %s and screen1 = %s """
+        mycursor.execute(totaltime, (1, 1, 0, 1, ))
         times = mycursor.fetchone()
         time = [row for row in times]
         file = []
-        return render_template('display.html', disp = disps, times = time[0])
+        return render_template('/templates/screens/screen1.html', disp = disps, times = time[0])
 
 if __name__ == '__main__':
-    mcadisp.run(debug=False, port=5555)
+    disp1.run(debug=True, port=5555)

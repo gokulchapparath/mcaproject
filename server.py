@@ -526,4 +526,6 @@ def mystatus():
         return render_template('user/userstatus.html', disp2 = disps2)
 
 if __name__ == '__main__':
+    website_url = 'ghost-pc:5000'
+    app.config['SERVER_NAME'] = website_url 
     app.run(debug=True)
