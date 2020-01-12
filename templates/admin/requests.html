@@ -76,8 +76,10 @@
                   <th>slide</th>
                   <th>Requested By</th>
                   <th>Requested time(Sec)</th>
+                  <th>Screen needed</th>
                   <th>Status</th>
                   <th>Action</th>
+                                    
               </tr>
           </thead>
           <tbody>
@@ -103,20 +105,56 @@
                   <td>{{sliders[4].capitalize()}}</td>
 
                   <!-- time duartion -->
-                <td>{{sliders[5]}}</td>                  
+                <td>{{sliders[5]}}</td>   
+
+                <!--screens-->
+
+                  <td>
+                    {%if sliders[6] == 1 %}
+mca<br>
+
+                        {% endif %}
+                    {%if sliders[7] == 1 %}
+screen1<br>
+                        {% endif %}
+                    {%if sliders[8] == 1 %}
+screen2<br>
+                        {% endif %}
+                    {%if sliders[9] == 1 %}
+screen3<br>
+                        {% endif %}
+                    {%if sliders[10] == 1 %}
+screen4<br>
+                        {% endif %}
+                    {%if sliders[11] == 1 %}
+screen5
+                        {% endif %}
+
+                  </td>
+
+
+                               
                 <!-- active:yes or no -->
                 {%if sliders[2] == 0 %}
                   <td>Pending</td>
                   {% endif %}
+
+
+
 
                   <td>
                     <button type="submit" name="approval" value="{{sliders[0]}}.1" class="btn btn-success">Accept</button>
                     <br>
                     <button type="submit" name="approval" value="{{sliders[0]}}.-1" class="btn btn-danger">Reject</button>
                   </td>
+
+
+
+
               </tr>
               
               {% endfor %}
+                
           </tbody>
       </table>
   </div>

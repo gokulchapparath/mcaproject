@@ -168,6 +168,83 @@ def display():
         file = []
         return render_template('display.html', disp = disps, times = time[0])
 
+@app.route("/mca")
+def mca():
+        mydisplay = """select file,ms,type from slidetest where active = %s and status = %s and deleted = %s and mca = %s order by id desc"""
+        mycursor.execute(mydisplay, (1, 1, 0, 1, ))
+        display = mycursor.fetchall()
+        disps = [row for row in display]
+        totaltime = """select sum(seconds)+4 from slidetest where active = %s and status = %s and deleted = %s and mca = %s """
+        mycursor.execute(totaltime, (1, 1, 0, 1, ))
+        times = mycursor.fetchone()
+        time = [row for row in times]
+        file = []
+        return render_template('screens/mca.html', disp = disps, times = time[0])        
+
+@app.route("/screen1")
+def sc1():
+        mydisplay = """select file,ms,type from slidetest where active = %s and status = %s and deleted = %s and screen1 = %s order by id desc"""
+        mycursor.execute(mydisplay, (1, 1, 0, 1, ))
+        display = mycursor.fetchall()
+        disps = [row for row in display]
+        totaltime = """select sum(seconds)+4 from slidetest where active = %s and status = %s and deleted = %s and screen1 = %s """
+        mycursor.execute(totaltime, (1, 1, 0, 1, ))
+        times = mycursor.fetchone()
+        time = [row for row in times]
+        file = []
+        return render_template('screens/screen1.html', disp = disps, times = time[0])
+
+@app.route("/screen2")
+def sc2():
+        mydisplay = """select file,ms,type from slidetest where active = %s and status = %s and deleted = %s and screen2 = %s order by id desc"""
+        mycursor.execute(mydisplay, (1, 1, 0, 1, ))
+        display = mycursor.fetchall()
+        disps = [row for row in display]
+        totaltime = """select sum(seconds)+4 from slidetest where active = %s and status = %s and deleted = %s and screen2 = %s """
+        mycursor.execute(totaltime, (1, 1, 0, 1, ))
+        times = mycursor.fetchone()
+        time = [row for row in times]
+        file = []
+        return render_template('screens/screen2.html', disp = disps, times = time[0]) 
+
+@app.route("/screen3")
+def sc3():
+        mydisplay = """select file,ms,type from slidetest where active = %s and status = %s and deleted = %s and screen3 = %s order by id desc"""
+        mycursor.execute(mydisplay, (1, 1, 0, 1, ))
+        display = mycursor.fetchall()
+        disps = [row for row in display]
+        totaltime = """select sum(seconds)+4 from slidetest where active = %s and status = %s and deleted = %s and screen3 = %s """
+        mycursor.execute(totaltime, (1, 1, 0, 1, ))
+        times = mycursor.fetchone()
+        time = [row for row in times]
+        file = []
+        return render_template('screens/screen3.html', disp = disps, times = time[0]) 
+
+@app.route("/screen4")
+def sc4():
+        mydisplay = """select file,ms,type from slidetest where active = %s and status = %s and deleted = %s and screen4 = %s order by id desc"""
+        mycursor.execute(mydisplay, (1, 1, 0, 1, ))
+        display = mycursor.fetchall()
+        disps = [row for row in display]
+        totaltime = """select sum(seconds)+4 from slidetest where active = %s and status = %s and deleted = %s and screen4 = %s """
+        mycursor.execute(totaltime, (1, 1, 0, 1, ))
+        times = mycursor.fetchone()
+        time = [row for row in times]
+        file = []
+        return render_template('screens/screen4.html', disp = disps, times = time[0]) 
+
+@app.route("/screen5")
+def sc5():
+        mydisplay = """select file,ms,type from slidetest where active = %s and status = %s and deleted = %s and screen5 = %s order by id desc"""
+        mycursor.execute(mydisplay, (1, 1, 0, 1, ))
+        display = mycursor.fetchall()
+        disps = [row for row in display]
+        totaltime = """select sum(seconds)+4 from slidetest where active = %s and status = %s and deleted = %s and screen5 = %s """
+        mycursor.execute(totaltime, (1, 1, 0, 1, ))
+        times = mycursor.fetchone()
+        time = [row for row in times]
+        file = []
+        return render_template('screens/screen5.html', disp = disps, times = time[0]) 
 
 @app.route("/testdisplay")
 def testdisplay():
@@ -208,23 +285,37 @@ def adminadd():
 
 @app.route("/addnewnotice", methods=['POST'])
 def imgform():
+    mca = screen1 = screen2 = screen3 = screen4 = screen5 = 0
     if request.form['formbtn'] == 'img':
         file = request.files['imgfiles']
         if file:
             now = datetime.now().strftime("%d%m%Y%H%M%S")
-            dept = request.form['dept']
             dseconds = request.form['duration']
             if dseconds == '':
               return render_template('admin/add.html',msg = "please add duration")
             else:
+                op=request.form.getlist('screen')
+                for x in op:
+                    if(x == "mca"):
+                        mca = 1
+                    if(x == "screen1"):
+                        screen1 = 1
+                    if(x == "screen2"):
+                        screen2 = 1
+                    if(x == "screen3"):
+                        screen3 = 1
+                    if(x == "screen4"):
+                        screen4 = 1
+                    if(x == "screen5"):
+                        screen5 = 1                            
                 ms = int(dseconds) * 1000    
                 category = "image"
                 filename = secure_filename(file.filename)
                 files = now + filename
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'],files))
-                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted, who, status) 
-                                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s) 
-                                    """, (files, 1, ms, dseconds, category, 0, "mca_admin", 1)
+                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted, who, status, mca, screen1, screen2, screen3, screen4, screen5)
+                                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) 
+                                    """, (files, 1, ms, dseconds, category, 0, "mca_admin", 1, mca, screen1, screen2, screen3, screen4, screen5)
                 mycursor.execute(*mySql)
                 mydb.commit()
                 return render_template('admin/add.html',msg = "Successful")
@@ -234,19 +325,32 @@ def imgform():
         file = request.files['vidfiles']
         if file:
             now = datetime.now().strftime("%d%m%Y%H%M%S")
-            dept = request.form['deptvid']
             dseconds = request.form['durationvid']
             if dseconds == '':
                 return render_template('admin/add.html',msg = "please add duration")
             else:
+                op=request.form.getlist('screen')
+                for x in op:
+                    if(x == "mca"):
+                        mca = 1
+                    if(x == "screen1"):
+                        screen1 = 1
+                    if(x == "screen2"):
+                        screen2 = 1
+                    if(x == "screen3"):
+                        screen3 = 1
+                    if(x == "screen4"):
+                        screen4 = 1
+                    if(x == "screen5"):
+                        screen5 = 1                      
                 ms = int(dseconds) * 1000    
                 category = "video"
                 filename = secure_filename(file.filename)
                 files = now + filename
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'],files))
-                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted, who, status) 
-                                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s) 
-                                    """, (files, 1, ms, dseconds, category, 0, "mca_admin", 1)
+                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted, who, status, mca, screen1, screen2, screen3, screen4, screen5)
+                                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) 
+                                    """, (files, 1, ms, dseconds, category, 0, "mca_admin", 1, mca, screen1, screen2, screen3, screen4, screen5)
                 mycursor.execute(*mySql)
                 mydb.commit()
                 return render_template('admin/add.html',msg = "Successful added video")
@@ -256,11 +360,24 @@ def imgform():
         file = request.files['pdffiles']
         if file:
             now = datetime.now().strftime("%d%m%Y%H%M%S")
-            dept = request.form['deptpdf']
             dseconds = request.form['durationpdf']
             if dseconds == '':
                 return render_template('admin/add.html',msg = "please add duration")
             else:
+                op=request.form.getlist('screen')
+                for x in op:
+                    if(x == "mca"):
+                        mca = 1
+                    if(x == "screen1"):
+                        screen1 = 1
+                    if(x == "screen2"):
+                        screen2 = 1
+                    if(x == "screen3"):
+                        screen3 = 1
+                    if(x == "screen4"):
+                        screen4 = 1
+                    if(x == "screen5"):
+                        screen5 = 1                        
                 ms = int(dseconds) * 1000    
                 category = "image"
                 filename = secure_filename(file.filename)
@@ -270,17 +387,16 @@ def imgform():
                 for i, page in enumerate(reversed(pages)):
                     name = str(i) + now + 'pdf' + '.png'
                     page.save(os.path.join(app.config['UPLOAD_FOLDER'],  name), 'PNG')
-                    mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted, who, status) 
-                                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s) 
-                                    """, (name, 1, ms, dseconds, category, 0, "mca_admin", 1)
-                    mycursor.execute(*mySql)
-                    mydb.commit()
+                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted, who, status, mca, screen1, screen2, screen3, screen4, screen5)
+                                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) 
+                                    """, (files, 1, ms, dseconds, category, 0, "mca_admin", 1, mca, screen1, screen2, screen3, screen4, screen5)
+                mycursor.execute(*mySql)
+                mydb.commit()
                 os.remove(app.config['UPLOAD_FOLDER']+ '/' + files)
                 return render_template('admin/add.html',msg = "Successful added pdf")
         else:
             return render_template('admin/add.html',msg = "please select a pdf file")            
     elif request.form['formbtn'] == 'txt':
-        dept = request.form['depttxt']
         dseconds = request.form['durationtxt']
         if dseconds == '':
             return render_template('admin/add.html',msg = "please add duration for text")
@@ -291,9 +407,23 @@ def imgform():
             if file == '':
                 return render_template('admin/add.html',msg = "Please add text")
             else:
-                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted, who, status) 
-                                VALUES (%s,%s,%s,%s,%s,%s,%s,%s) 
-                                """, (file, 1, ms, dseconds, category, 0, "mca_admin", 1)
+                op=request.form.getlist('screen')
+                for x in op:
+                    if(x == "mca"):
+                        mca = 1
+                    if(x == "screen1"):
+                        screen1 = 1
+                    if(x == "screen2"):
+                        screen2 = 1
+                    if(x == "screen3"):
+                        screen3 = 1
+                    if(x == "screen4"):
+                        screen4 = 1
+                    if(x == "screen5"):
+                        screen5 = 1 
+                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted, who, status, mca, screen1, screen2, screen3, screen4, screen5)
+                                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) 
+                                    """, (file, 1, ms, dseconds, category, 0, "mca_admin", 1, mca, screen1, screen2, screen3, screen4, screen5)
                 mycursor.execute(*mySql)
                 mydb.commit()    
             return render_template('admin/add.html',msg = "Successful added text message")
@@ -377,7 +507,7 @@ def archives():
 
 @app.route("/requests")
 def approval():
-        mydisplay2 = """select id,file,status,type,who,seconds from slidetest where status = "%s" order by id"""
+        mydisplay2 = """select id,file,status,type,who,seconds,mca,screen1,screen2,screen3,screen4,screen5 from slidetest where status = "%s" order by id"""
         mycursor.execute(mydisplay2, (0, ))
         display2 = mycursor.fetchall()
         disps2 = [row for row in display2]
@@ -385,6 +515,10 @@ def approval():
         mycursor.execute(totalreq, (0, ))
         times = mycursor.fetchone()
         time = [row for row in times]
+        # screens = """select mca,screen1,screen2,screen3,screen4,screen5 from slidetest where status = "%s" order by id"""
+        # mycursor.execute(screens, (0, ))
+        # scr = mycursor.fetchall()
+        # testscreen = [row for row in scr]
         return render_template('admin/requests.html', disp2 = disps2, times = time)
 
 @app.route("/requests", methods=['POST'])
@@ -417,24 +551,38 @@ def userrequest():
 
 @app.route("/urequest", methods=['POST'])
 def userform():
+    mca = screen1 = screen2 = screen3 = screen4 = screen5 = 0
     usernames = session['username']
     if request.form['formbtn'] == 'img':
         file = request.files['imgfiles']
         if file:
             now = datetime.now().strftime("%d%m%Y%H%M%S")
-            dept = request.form['dept']
             dseconds = request.form['duration']
             if dseconds == '':
               return render_template('user/userrequest.html',msg = "please add duration")
             else:
+                op=request.form.getlist('screen')
+                for x in op:
+                    if(x == "mca"):
+                        mca = 1
+                    if(x == "screen1"):
+                        screen1 = 1
+                    if(x == "screen2"):
+                        screen2 = 1
+                    if(x == "screen3"):
+                        screen3 = 1
+                    if(x == "screen4"):
+                        screen4 = 1
+                    if(x == "screen5"):
+                        screen5 = 1                                                                                                
                 ms = int(dseconds) * 1000    
                 category = "image"
                 filename = secure_filename(file.filename)
                 files = now + filename
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'],files))
-                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted, who, status) 
-                                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s) 
-                                    """, (files, 0, ms, dseconds, category, 0, usernames, 0)
+                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted, who, status, mca, screen1, screen2, screen3, screen4, screen5) 
+                                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) 
+                                    """, (files, 0, ms, dseconds, category, 0, usernames, 0, mca, screen1, screen2, screen3, screen4, screen5)
                 mycursor.execute(*mySql)
                 mydb.commit()
                 return render_template('user/userrequest.html',msg = "Successful")
@@ -444,19 +592,32 @@ def userform():
         file = request.files['vidfiles']
         if file:
             now = datetime.now().strftime("%d%m%Y%H%M%S")
-            dept = request.form['deptvid']
             dseconds = request.form['durationvid']
             if dseconds == '':
                 return render_template('user/userrequest.html',msg = "please add duration")
             else:
+                op=request.form.getlist('screen')
+                for x in op:
+                    if(x == "mca"):
+                        mca = 1
+                    if(x == "screen1"):
+                        screen1 = 1
+                    if(x == "screen2"):
+                        screen2 = 1
+                    if(x == "screen3"):
+                        screen3 = 1
+                    if(x == "screen4"):
+                        screen4 = 1
+                    if(x == "screen5"):
+                        screen5 = 1 
                 ms = int(dseconds) * 1000    
                 category = "video"
                 filename = secure_filename(file.filename)
                 files = now + filename
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'],files))
-                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted, who, status) 
-                                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s) 
-                                    """, (files, 0, ms, dseconds, category, 0, usernames, 0)
+                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted, who, status, mca, screen1, screen2, screen3, screen4, screen5) 
+                                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) 
+                                    """, (files, 0, ms, dseconds, category, 0, usernames, 0, mca, screen1, screen2, screen3, screen4, screen5)
                 mycursor.execute(*mySql)
                 mydb.commit()
                 return render_template('user/userrequest.html',msg = "Successful added video")
@@ -466,11 +627,24 @@ def userform():
         file = request.files['pdffiles']
         if file:
             now = datetime.now().strftime("%d%m%Y%H%M%S")
-            dept = request.form['deptpdf']
             dseconds = request.form['durationpdf']
             if dseconds == '':
                 return render_template('user/userrequest.html',msg = "please add duration")
             else:
+                op=request.form.getlist('screen')
+                for x in op:
+                    if(x == "mca"):
+                        mca = 1
+                    if(x == "screen1"):
+                        screen1 = 1
+                    if(x == "screen2"):
+                        screen2 = 1
+                    if(x == "screen3"):
+                        screen3 = 1
+                    if(x == "screen4"):
+                        screen4 = 1
+                    if(x == "screen5"):
+                        screen5 = 1 
                 ms = int(dseconds) * 1000    
                 category = "image"
                 filename = secure_filename(file.filename)
@@ -480,9 +654,9 @@ def userform():
                 for i, page in enumerate(reversed(pages)):
                     name = str(i) + now + 'pdf' + '.png'
                     page.save(os.path.join(app.config['UPLOAD_FOLDER'],  name), 'PNG')
-                    mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted, who, status) 
-                                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s) 
-                                    """, (name, 0, ms, dseconds, category, 0, usernames, 0)
+                    mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted, who, status, mca, screen1, screen2, screen3, screen4, screen5) 
+                                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) 
+                                    """, (name, 0, ms, dseconds, category, 0, usernames, 0, mca, screen1, screen2, screen3, screen4, screen5)
                     mycursor.execute(*mySql)
                     mydb.commit()
                 os.remove(app.config['UPLOAD_FOLDER']+ '/' + files)
@@ -490,7 +664,7 @@ def userform():
         else:
             return render_template('user/userrequest.html',msg = "please select a pdf file")            
     elif request.form['formbtn'] == 'txt':
-        dept = request.form['depttxt']
+
         dseconds = request.form['durationtxt']
         if dseconds == '':
             return render_template('user/userrequest.html',msg = "please add duration for text")
@@ -501,9 +675,23 @@ def userform():
             if file == '':
                 return render_template('user/userrequest.html',msg = "Please add text")
             else:
-                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted, who, status) 
-                                VALUES (%s,%s,%s,%s,%s,%s,%s,%s) 
-                                """, (file, 0, ms, dseconds, category, 0, usernames, 0)
+                op=request.form.getlist('screen')
+                for x in op:
+                    if(x == "mca"):
+                        mca = 1
+                    if(x == "screen1"):
+                        screen1 = 1
+                    if(x == "screen2"):
+                        screen2 = 1
+                    if(x == "screen3"):
+                        screen3 = 1
+                    if(x == "screen4"):
+                        screen4 = 1
+                    if(x == "screen5"):
+                        screen5 = 1
+                mySql = """INSERT INTO slidetest (file, active, ms, seconds, type, deleted, who, status, mca, screen1, screen2, screen3, screen4, screen5)
+                                VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) 
+                                """, (file, 0, ms, dseconds, category, 0, usernames, 0, mca, screen1, screen2, screen3, screen4, screen5)
                 mycursor.execute(*mySql)
                 mydb.commit()    
             return render_template('user/userrequest.html',msg = "Successful added text message")
