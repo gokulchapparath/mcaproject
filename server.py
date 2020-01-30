@@ -17,8 +17,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # db = SQLAlchemy(app)
 mydb = mysql.connector.connect(
     host="localhost",
-    user="aru",
-    passwd="aru12345678",
+    user="mca",
+    passwd="mca12345678",
     database="wireless"
 )
 mycursor = mydb.cursor(buffered=True)
