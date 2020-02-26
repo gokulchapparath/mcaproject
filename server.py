@@ -8,6 +8,25 @@ import mysql.connector
 from werkzeug import secure_filename
 import re
 import os
+import socket
+import urllib.request
+
+def get_my_ip_address(remote_server="google.com"):
+    try:
+        urllib.request.urlopen('http://google.com') #Python 3.x
+        """
+        Return the/a network-facing IP number for this system.
+        """
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s: 
+            s.connect((remote_server, 80))
+            return s.getsockname()[0]
+    except:
+        return False
+
+if(get_my_ip_address() == False):
+    ip = '127.0.0.1'
+else:    
+    ip = get_my_ip_address()
 
 app = Flask(__name__, static_url_path='/static')
 app.config['SECRET_KEY'] = 'fd5135666bac8fe98033e86b90251504'
@@ -714,4 +733,4 @@ def mystatus():
         return render_template('user/userstatus.html', disp2 = disps2)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host = ip,port=5000,debug=True)
