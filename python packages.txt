@@ -1,0 +1,4 @@
+use pip3
+pip3 install flask #flask installation 
+pip3 install pdf2image #pdfconvetor package
+pip3 install mysql-connector-python #mysql connector
