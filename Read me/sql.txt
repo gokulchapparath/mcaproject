@@ -1,7 +1,26 @@
-create table register(id int primary key AUTO_INCREMENT,name varchar(60),email varchar(60),phone varchar(60),types varchar(60),password varchar(60));
+$ sudo mysql or mysql -u root -p
+//enter root password
+
+> CREATE USER 'mca'@'localhost' IDENTIFIED BY 'mca12345678';
+
+> GRANT ALL PRIVILEGES ON * . * TO 'mca'@'localhost';
+
+> FLUSH PRIVILEGES;
+
+$ mysql -u mca -p
+//enter mca password ie:mca12345678
+
+> create database wireless;
+
+> create table register(id int primary key AUTO_INCREMENT,name varchar(60),email varchar(60),phone varchar(60),types varchar(60),password varchar(60));
 
 
-create table accounts(id int primary key AUTO_INCREMENT,username varchar(60),password varchar(60),type varchar(60));
+> create table accounts(id int primary key AUTO_INCREMENT,username varchar(60),password varchar(60),type varchar(60));
 
 
-create table slidetest(id int primary key AUTO_INCREMENT,file varchar(500),active int,ms int,seconds int,type varchar(20),deleted int,who varchar(500),status int,mca int,screen1 int,screen2 int,screen3 int,screen4 int,screen5 int);
+> create table slidetest(id int primary key AUTO_INCREMENT,file varchar(500),active int,ms int,seconds int,type varchar(20),deleted int,who varchar(500),status int,mca int,screen1 int,screen2 int,screen3 int,screen4 int,screen5 int);
+
+
+> insert into accounts(username,password,type) values("mca","mcaadmin","admin");
+
+// cannot create a administrator(admin) user with register so create a admin like this
