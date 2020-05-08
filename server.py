@@ -5,7 +5,8 @@ from datetime import datetime
 from pdf2image import convert_from_path
 # from dbconnect import connection
 import mysql.connector
-from werkzeug import secure_filename
+from werkzeug.utils import secure_filename
+#from werkzeug import secure_filename
 import re
 import os
 import socket
